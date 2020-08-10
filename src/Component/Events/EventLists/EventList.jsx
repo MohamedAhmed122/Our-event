@@ -1,11 +1,9 @@
 import React from 'react'
 import EventListITem from './Event-List-Item'
 
-const EventList =()=>(
+const EventList =({events})=>(
     <div>
-        <EventListITem />
-        <EventListITem />
-        <EventListITem />
+        {events.map(event => <EventListITem key={event.id} event={event} />)}
     </div>
 )
 export default  EventList;

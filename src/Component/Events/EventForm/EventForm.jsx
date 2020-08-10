@@ -24,9 +24,6 @@ const EventForm = () => {
         <Form.Field>
           <input type="date" placeholder="Date" />
         </Form.Field>
-        <Button.Group >
-
-        </Button.Group>
         <Button content='Submit' type='submit' positive floated='right'/>
         <Button content='Cancel' type='submit' floated='right'/>
       </Form>

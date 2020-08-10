@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import {  Image } from "semantic-ui-react";
 
-const EventAttendees = () => (
+const EventAttendees = ({attendee:{photoURL}}) => (
   <Fragment>
-    <Image size="mini" src="/assets/user.png" circular />
+    <Image size="mini" src={photoURL} circular />
   </Fragment>
 );
 export default EventAttendees;
