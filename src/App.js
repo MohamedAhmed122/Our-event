@@ -7,11 +7,26 @@ import { Container } from "semantic-ui-react";
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const handleSelected = (event) => {
+    setSelectedEvent(event);
+    setOpen(true);
+  };
+  const handleOpen = () => {
+    setSelectedEvent(null);
+    setOpen(true);
+  };
   return (
     <Fragment>
-      <Navbar setOpen={setOpen} />
+      <Navbar setOpen={handleOpen} />
       <Container className="main">
-        <EventDashboard open={open} setOpen={setOpen}/>
+        <EventDashboard
+          open={open}
+          setOpen={setOpen}
+          handleSelected={handleSelected}
+          selectedEvent={selectedEvent}
+        />
       </Container>
     </Fragment>
   );
