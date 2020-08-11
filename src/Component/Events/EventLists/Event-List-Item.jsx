@@ -1,6 +1,7 @@
 import React from "react";
 import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
 import EventAttendees from "./Event-List-Attendees";
+import { Link } from "react-router-dom";
 
 const EventListITem = ({ event, handleSelected ,handleDeleteEvent}) => {
   const {
@@ -40,9 +41,6 @@ const EventListITem = ({ event, handleSelected ,handleDeleteEvent}) => {
               <EventAttendees key={attendee.id} attendee={attendee} />
             ))}
           </List.Item>
-          {/* <List.Item>
-          <EventAttendees />
-        </List.Item> */}
         </List>
       </Segment>
       <Segment clearing>
@@ -50,8 +48,8 @@ const EventListITem = ({ event, handleSelected ,handleDeleteEvent}) => {
         <Button
           color="teal"
           floated="right"
-          content="Edit"
-          onClick={() => handleSelected(event)}
+          content="View"
+          as={Link} to={`/event/:${event.id}`}
         />
         <Button
           color='red'
