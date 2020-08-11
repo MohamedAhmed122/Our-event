@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu, Button, MenuItem, Container } from "semantic-ui-react";
-import {  NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = ({setOpen}) => (
   <Menu inverted fixed="top">
@@ -14,12 +14,12 @@ const Navbar = ({setOpen}) => (
         Our-Event
       </MenuItem>
       <MenuItem as={NavLink} to='/event' name="Events" />
-      <MenuItem>
+      <MenuItem as={Link} to='/createEvent'>
         <Button
           positive
           inverted
           content="Create Event"
-          onClick={()=> setOpen(true)}
+          
         />
       </MenuItem>
       <MenuItem position="right">
