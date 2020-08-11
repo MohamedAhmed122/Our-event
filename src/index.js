@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "semantic-ui-css/semantic.min.css";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import "./index.css";
+import { store } from "./redux/store";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
@@ -10,9 +12,11 @@ const root = document.getElementById("root");
 
 const render = () => {
   ReactDOM.render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>,
     root
   );
 };

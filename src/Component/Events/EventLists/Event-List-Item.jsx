@@ -2,8 +2,10 @@ import React from "react";
 import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
 import EventAttendees from "./Event-List-Attendees";
 import { Link } from "react-router-dom";
+import {deleteEvent} from '../../../redux/Event/EventAction'
+import {connect} from 'react-redux'
 
-const EventListITem = ({ event, handleSelected ,handleDeleteEvent}) => {
+const EventListITem = ({ event ,deleteEvent}) => {
   const {
     title,
     date,
@@ -49,16 +51,22 @@ const EventListITem = ({ event, handleSelected ,handleDeleteEvent}) => {
           color="teal"
           floated="right"
           content="View"
-          as={Link} to={`/event/:${event.id}`}
+          as={Link} to={`/event/${event.id}`}
         />
         <Button
           color='red'
           floated="right"
           content="Delete"
-          onClick={()=>handleDeleteEvent(event)}
+          onClick={()=> deleteEvent(event.id)}
         />
       </Segment>
     </Segment.Group>
   );
 };
-export default EventListITem;
+
+const mapDispatchToProps =(dispatch)=>({
+  
+  deleteEvent: (event)=>dispatch(deleteEvent(event))
+})
+
+export default connect(null,mapDispatchToProps) (EventListITem);

@@ -1,4 +1,4 @@
-export const sampleData = [
+ const sampleData = [
     {
         id: '1',
         title: 'Trip to Empire State building',
@@ -46,3 +46,4 @@ export const sampleData = [
         ]
     }
 ];
+export default sampleData
