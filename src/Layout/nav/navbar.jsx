@@ -1,10 +1,11 @@
 import React from "react";
 import { Menu, Button, MenuItem, Container } from "semantic-ui-react";
+import {  NavLink } from "react-router-dom";
 
-const Navbar = ({ setOpen }) => (
+const Navbar = ({setOpen}) => (
   <Menu inverted fixed="top">
     <Container>
-      <MenuItem header>
+      <MenuItem header as={NavLink} to='/' exact>
         <img
           alt="logo"
           style={{ marginRight: "0.7em" }}
@@ -12,13 +13,13 @@ const Navbar = ({ setOpen }) => (
         />
         Our-Event
       </MenuItem>
-      <MenuItem name="Events" />
+      <MenuItem as={NavLink} to='/event' name="Events" />
       <MenuItem>
         <Button
-          onClick={() => setOpen(true)}
           positive
           inverted
           content="Create Event"
+          onClick={()=> setOpen(true)}
         />
       </MenuItem>
       <MenuItem position="right">

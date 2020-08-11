@@ -1,116 +1,109 @@
-import React, { useState, useEffect } from "react";
-import { Segment, Header, Form, Button, FormField } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Segment, Header, Form, Button } from "semantic-ui-react";
 import cuid from "cuid";
 
-const EventForm = ({
-  setOpen,
-  selectedEvent,
+export default function EventForm({
+  setFormOpen,
+  setEvents,
   createEvent,
-  handleUpdateEvent,
-}) => {
-  const [city, setCity] = useState("");
-  const [venue, setVenue] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
+  selectedEvent,
+  updateEvent,
+}) {
+  const initialValues = selectedEvent ?? {
+    title: '',
+    category: '',
+    description: '',
+    city: '',
+    venue: '',
+    date: '',
+  };
 
-  // To Select Event
-  useEffect(() => {
-    if (selectedEvent !== null) {
-      setCategory(selectedEvent.category);
-      setCity(selectedEvent.city);
-      setDate(selectedEvent.date);
-      setTitle(selectedEvent.title);
-      setVenue(selectedEvent.venue);
-      setDescription(selectedEvent.description);
-    }
-  }, [selectedEvent]);
+  const [values, setValues] = useState(initialValues);
 
-  // To Create New Event & to update 
-  const handleSubmit = () => {
-    const values = {
-      title,
-      date,
-      venue,
-      city,
-      category,
-      description,
-    };
+  function handleFormSubmit() {
     selectedEvent
-      ? handleUpdateEvent({ ...selectedEvent, ...values })
+      ? updateEvent({ ...selectedEvent, ...values })
       : createEvent({
           ...values,
           id: cuid(),
-          hostedBy: "Bob",
-          hostPhotoURL: "/assets/user.png",
+          hostedBy: 'Bob',
           attendees: [],
+          hostPhotoURL: '/assets/user.png',
         });
-    setOpen(false);
-  };
+    setFormOpen(false);
+  }
+
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  }
 
   return (
     <Segment clearing>
-      <Header content="Create new Event" />
-      <Form onSubmit={handleSubmit}>
+      <Header content={selectedEvent ? 'Edit the event' : 'Create new event'} />
+      <Form onSubmit={handleFormSubmit}>
         <Form.Field>
           <input
-            type="text"
-            placeholder="Event Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            type='text'
+            placeholder='Event title'
+            name='title'
+            value={values.title}
+            onChange={(e) => handleInputChange(e)}
           />
         </Form.Field>
         <Form.Field>
           <input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            type='text'
+            placeholder='Category'
+            name='category'
+            value={values.category}
+            onChange={(e) => handleInputChange(e)}
           />
         </Form.Field>
-        <FormField>
+        <Form.Field>
           <input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            type='text'
+            placeholder='Description'
+            name='description'
+            value={values.description}
+            onChange={(e) => handleInputChange(e)}
           />
-        </FormField>
-        <FormField>
+        </Form.Field>
+        <Form.Field>
           <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            type='text'
+            placeholder='City'
+            name='city'
+            value={values.city}
+            onChange={(e) => handleInputChange(e)}
           />
-        </FormField>
-        <FormField>
+        </Form.Field>
+        <Form.Field>
           <input
-            type="text"
-            placeholder="Venue"
-            value={venue}
-            onChange={(e) => setVenue(e.target.value)}
+            type='text'
+            placeholder='Venue'
+            name='venue'
+            value={values.venue}
+            onChange={(e) => handleInputChange(e)}
           />
-        </FormField>
-        <FormField>
+        </Form.Field>
+        <Form.Field>
           <input
-            type="date"
-            placeholder="Date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            type='date'
+            placeholder='Date'
+            name='date'
+            value={values.date}
+            onChange={(e) => handleInputChange(e)}
           />
-        </FormField>
-        <Button content="Submit" type="submit" positive floated="right" />
+        </Form.Field>
+        <Button type='submit' floated='right' positive content='Submit' />
         <Button
-          content="Cancel"
-          type="submit"
-          floated="right"
-          onClick={() => setOpen(false)}
+          onClick={() => setFormOpen(false)}
+          type='submit'
+          floated='right'
+          content='Cancel'
         />
       </Form>
     </Segment>
   );
-};
-
-export default EventForm;
+}

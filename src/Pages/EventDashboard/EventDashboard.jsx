@@ -24,23 +24,27 @@ const EventDashboard = ({
     // setOpen(false)
   };
 
-  const handleDeleteEvent =(evt) =>{
-    setEvents(events.filter(event => event.id !== evt.id))
-  }
+  const handleDeleteEvent = (evt) => {
+    setEvents(events.filter((event) => event.id !== evt.id));
+  };
 
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventList handleDeleteEvent={handleDeleteEvent} events={events} handleSelected={handleSelected} />
+        <EventList
+          handleDeleteEvent={handleDeleteEvent}
+          events={events}
+          handleSelected={handleSelected}
+        />
       </Grid.Column>
       <Grid.Column width={6}>
         {open && (
           <EventForm
-            setOpen={setOpen}
+            setFormOpen={setOpen}
             createEvent={handleCreateEvent}
             selectedEvent={selectedEvent}
             key={selectedEvent ? selectedEvent.id : null}
-            handleUpdateEvent={handleUpdateEvent}
+            updateEvent={handleUpdateEvent}
           />
         )}
       </Grid.Column>
