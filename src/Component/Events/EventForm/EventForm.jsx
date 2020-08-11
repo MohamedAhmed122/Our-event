@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { createEvent, updateEvent } from "../../../redux/Event/EventAction";
 import { useDispatch } from "react-redux";
 
-const EventForm = ({ match }) => {
+const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
     state.event.events.find((e) => e.id === match.params.id)
@@ -34,6 +34,7 @@ const EventForm = ({ match }) => {
             hostPhotoURL: "/assets/user.png",
           })
         );
+    history.push("/event");
   }
 
   function handleInputChange(e) {
@@ -44,7 +45,7 @@ const EventForm = ({ match }) => {
   return (
     <Segment clearing>
       <Header content={selectedEvent ? "Edit the event" : "Create new event"} />
-      <Form onSubmit={handleFormSubmit}>
+      <Form onSubmit={handleFormSubmit} autoComplete='off'>
         <Form.Field>
           <input
             type="text"
