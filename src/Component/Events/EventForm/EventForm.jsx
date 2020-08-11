@@ -2,35 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Segment, Header, Form, Button, FormField } from "semantic-ui-react";
 import cuid from "cuid";
 
-const EventForm = ({ setOpen, selectedEvent, createEvent }) => {
+const EventForm = ({
+  setOpen,
+  selectedEvent,
+  createEvent,
+  handleUpdateEvent,
+}) => {
   const [city, setCity] = useState("");
   const [venue, setVenue] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
-
-
-  // To Create New Event
-  const handleSubmit = () => {
-    const values ={
-      title,
-      date,
-      venue,
-      city,
-      category,
-      description,
-    };
-
-    createEvent({
-      ...values,
-      id: cuid(),
-      hostedBy: "Bob",
-      hostPhotoURL: "/assets/user.png",
-      attendees: [],
-    });
-    setOpen(false);
-  };
 
   // To Select Event
   useEffect(() => {
@@ -40,9 +23,31 @@ const EventForm = ({ setOpen, selectedEvent, createEvent }) => {
       setDate(selectedEvent.date);
       setTitle(selectedEvent.title);
       setVenue(selectedEvent.venue);
-      setDescription(selectedEvent.description);  
+      setDescription(selectedEvent.description);
     }
   }, [selectedEvent]);
+
+  // To Create New Event & to update 
+  const handleSubmit = () => {
+    const values = {
+      title,
+      date,
+      venue,
+      city,
+      category,
+      description,
+    };
+    selectedEvent
+      ? handleUpdateEvent({ ...selectedEvent, ...values })
+      : createEvent({
+          ...values,
+          id: cuid(),
+          hostedBy: "Bob",
+          hostPhotoURL: "/assets/user.png",
+          attendees: [],
+        });
+    setOpen(false);
+  };
 
   return (
     <Segment clearing>

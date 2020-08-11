@@ -2,7 +2,7 @@ import React from "react";
 import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
 import EventAttendees from "./Event-List-Attendees";
 
-const EventListITem = ({ event, handleSelected }) => {
+const EventListITem = ({ event, handleSelected ,handleDeleteEvent}) => {
   const {
     title,
     date,
@@ -50,8 +50,14 @@ const EventListITem = ({ event, handleSelected }) => {
         <Button
           color="teal"
           floated="right"
-          content="view"
+          content="Edit"
           onClick={() => handleSelected(event)}
+        />
+        <Button
+          color='red'
+          floated="right"
+          content="Delete"
+          onClick={()=>handleDeleteEvent(event)}
         />
       </Segment>
     </Segment.Group>

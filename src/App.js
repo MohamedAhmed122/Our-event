@@ -26,6 +26,7 @@ function App() {
           setOpen={setOpen}
           handleSelected={handleSelected}
           selectedEvent={selectedEvent}
+          setSelectedEvent={setSelectedEvent}
         />
       </Container>
     </Fragment>
