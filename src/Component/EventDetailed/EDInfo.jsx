@@ -1,5 +1,7 @@
 import React from "react";
 import { Segment, Grid, Icon, Button } from "semantic-ui-react";
+import {format} from 'date-fns'
+
 
 const EVInfo = ({ event: { description, date, venue } }) => (
   <Segment.Group>
@@ -19,7 +21,7 @@ const EVInfo = ({ event: { description, date, venue } }) => (
           <Icon name="calendar" size="large" color="teal" />
         </Grid.Column>
         <Grid.Column width={15}>
-          <span> {date}</span>
+          <span> {format(date, 'MMMM d, yyyy h:mm a')}</span>
         </Grid.Column>
       </Grid>
     </Segment>
