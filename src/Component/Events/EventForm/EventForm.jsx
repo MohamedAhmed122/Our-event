@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { Segment, Header, FormField, Button, Label } from "semantic-ui-react";
-// import cuid from "cuid";
+import React from "react";
+import { Segment, Header, Button } from "semantic-ui-react";
+import FormInput from "../../Forms/FormInput";
+import cuid from "cuid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { createEvent, updateEvent } from "../../../redux/Event/EventAction";
+import { createEvent, updateEvent } from "../../../redux/Event/EventAction";
 import { useDispatch } from "react-redux";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import FormArea from "../../Forms/FormArea";
+import FormSelect from "../../Forms/FormSelect";
+import {categoryData} from  '../../../api/categoryOp'
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -22,41 +26,49 @@ const EventForm = ({ match, history }) => {
     date: "",
   };
 
+
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide title"),
+    category: Yup.string().required("You must provide category"),
+    city: Yup.string().required("You must provide city"),
+    description: Yup.string().required("You must provide description"),
+    venue: Yup.string().required("You must provide venue"),
+    date: Yup.string().required(),
   });
 
   return (
     <Segment clearing>
-      <Header content={selectedEvent ? "Edit the event" : "Create new event"} />
       <Formik
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => {
+          selectedEvent
+            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+            : dispatch(
+                createEvent({
+                  ...values,
+                  id: cuid(),
+                  hostedBy: "Bob",
+                  attendees: [],
+                  hostPhotoURL: "/assets/user.png",
+                })
+              );
+          history.push("/event");
+        }}
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
         <Form className="ui form" autoComplete="off">
-          <FormField>
-            <Field name="title" placeholder="Event Title" />
-            <ErrorMessage
-              name="title"
-              render={(error) => <Label content={error} color="red" basic />}
-            />
-          </FormField>
-          <FormField>
-            <Field name="category" placeholder=" Category" />
-          </FormField>
-          <FormField>
-            <Field name="description" placeholder="Event description" />
-          </FormField>
-          <FormField>
-            <Field name="city" placeholder="City" />
-          </FormField>
-          <FormField>
-            <Field name="venue" placeholder="Venue" />
-          </FormField>
-          <FormField>
-            <Field name="date" placeholder="Event Date" type="date" />
-          </FormField>
+          <Header content="Event Details" color="teal" sub />
+          <FormInput name="title" placeholder="Event Title" />
+          <FormSelect name="category" placeholder="Category" options={categoryData} />
+          <FormArea
+            name="description"
+            placeholder="Event Description"
+            rows={3}
+          />
+          <Header content="Event Location" color="teal" sub />
+          <FormInput name="city" placeholder="City" />
+          <FormInput name="venue" placeholder="Venue" />
+          <FormInput name="date" placeholder="Event Date" type="date" />
           <Button type="submit" floated="right" positive content="Submit" />
           <Button
             as={Link}
@@ -72,25 +84,3 @@ const EventForm = ({ match, history }) => {
 };
 
 export default EventForm;
-
-// const [values, setValues] = useState(initialValues);
-
-// function handleFormSubmit() {
-//   selectedEvent
-//     ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-//     : dispatch(
-//         createEvent({
-//           ...values,
-//           id: cuid(),
-//           hostedBy: "Bob",
-//           attendees: [],
-//           hostPhotoURL: "/assets/user.png",
-//         })
-//       );
-//   history.push("/event");
-// }
-
-// function handleInputChange(e) {
-//   const { name, value } = e.target;
-//   setValues({ ...values, [name]: value });
-// }
