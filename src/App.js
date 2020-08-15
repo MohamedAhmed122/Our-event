@@ -8,11 +8,13 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import HomePage from "./Pages/HomePage/Home";
 import EventDetailedPage from "./Pages/EventDetailedPage/EventDetailedPage";
 import CreateEvent from "./Component/Events/EventForm/EventForm";
+import ModalManger from "./Component/Modal-Component/ManageModals/ModalManager";
 
 function App() {
   const { key } = useLocation();
   return (
     <Fragment>
+      <ModalManger />
       <Route exact path="/" component={HomePage} />
       <Route
         path={"/(.+)"}

@@ -1,9 +1,9 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
-import { closeModal } from "./ModalAction";
+import { closeModal } from "../../../redux/Modal/ModalAction";
 
-const ModalWapper = ({ children, size, header }) => {
+const ModalWrapper = ({ children, size, header }) => {
   const dispatch = useDispatch();
   return (
     <Modal open={true} onClose={() => dispatch(closeModal())} size={size}>
@@ -12,3 +12,4 @@ const ModalWapper = ({ children, size, header }) => {
     </Modal>
   );
 };
+export default ModalWrapper
