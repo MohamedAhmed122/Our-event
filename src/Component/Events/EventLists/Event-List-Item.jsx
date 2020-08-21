@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { deleteEvent } from "../../../redux/Event/EventAction";
 import { connect } from "react-redux";
 import { format } from "date-fns";
-import EDMap from '../../EventDetailed/EDMap'
+
 
 const EventListITem = ({ event, deleteEvent }) => {
   const {
