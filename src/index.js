@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "semantic-ui-css/semantic.min.css";
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-calendar/dist/Calendar.css'
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./index.css";

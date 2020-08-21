@@ -31,4 +31,4 @@ const asyncReducer =(state= initialState ,action )=>{
     }
 }
 
-export default ASYNC_ACTION_ERROR
+export default asyncReducer
