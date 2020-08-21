@@ -16,6 +16,6 @@ const modalReducer =(state=initialState, action)=>{
         }
         default:
             return state
-    }
+    }   
 }
 export default  modalReducer;

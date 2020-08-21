@@ -17,4 +17,4 @@ const ModalManger = () => {
   }
   return <span>{renderModal}</span>
 };
-export default ModalManger;
+export default ModalManger;    

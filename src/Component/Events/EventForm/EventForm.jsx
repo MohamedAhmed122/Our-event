@@ -1,3 +1,4 @@
+/* global google */
 import React from "react";
 import { Segment, Header, Button } from "semantic-ui-react";
 import FormInput from "../../Forms/FormInput";
@@ -12,6 +13,7 @@ import FormArea from "../../Forms/FormArea";
 import FormSelect from "../../Forms/FormSelect";
 import { categoryData } from "../../../api/categoryOp";
 import FormDate from "../../Forms/FormDate";
+import PlaceInput from "../../Forms/FormPlaces";
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -22,18 +24,28 @@ const EventForm = ({ match, history }) => {
     title: "",
     category: "",
     description: "",
-    city: "",
-    venue: "",
+    city: {
+      address: "",
+      latLng: null,
+    },
+    venue: {
+      address: "",
+      latLng: null,
+    },
     date: "",
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required("You must provide title"),
-    category: Yup.string().required("You must provide category"),
-    city: Yup.string().required("You must provide city"),
-    description: Yup.string().required("You must provide description"),
-    venue: Yup.string().required("You must provide venue"),
-    date: Yup.string().required("Date is Required"),
+    title: Yup.string().required("You must provide a title"),
+    category: Yup.string().required("You must provide a category"),
+    description: Yup.string().required(),
+    city: Yup.object().shape({
+      address: Yup.string().required("City is required"),
+    }),
+    venue: Yup.object().shape({
+      address: Yup.string().required("Venue is required"),
+    }),
+    date: Yup.string().required(),
   });
 
   return (
@@ -56,7 +68,7 @@ const EventForm = ({ match, history }) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, dirty, isValid }) => (
+        {({ isSubmitting, dirty, isValid, values }) => (
           <Form className="ui form" autoComplete="off">
             <Header content="Event Details" color="teal" sub />
             <FormInput name="title" placeholder="Event Title" />
@@ -71,8 +83,18 @@ const EventForm = ({ match, history }) => {
               rows={3}
             />
             <Header content="Event Location" color="teal" sub />
-            <FormInput name="city" placeholder="City" />
-            <FormInput name="venue" placeholder="Venue" />
+            <PlaceInput  name="city" placeholder="City" />
+            <PlaceInput
+            autoComplete='of'
+              name="venue"
+              disabled={!values.city.latLng}
+              placeholder="Venue"
+              options={{
+                location: new google.maps.LatLng(values.city.latLng),
+                radius: 1000,
+                types: ["establishment"],
+              }}
+            />
             <FormDate
               name="date"
               placeholderText="Event Date"

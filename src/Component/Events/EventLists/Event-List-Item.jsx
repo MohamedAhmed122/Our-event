@@ -2,11 +2,12 @@ import React from "react";
 import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
 import EventAttendees from "./Event-List-Attendees";
 import { Link } from "react-router-dom";
-import {deleteEvent} from '../../../redux/Event/EventAction'
-import {connect} from 'react-redux'
-import {format} from 'date-fns'
+import { deleteEvent } from "../../../redux/Event/EventAction";
+import { connect } from "react-redux";
+import { format } from "date-fns";
+import EDMap from '../../EventDetailed/EDMap'
 
-const EventListITem = ({ event ,deleteEvent}) => {
+const EventListITem = ({ event, deleteEvent }) => {
   const {
     title,
     date,
@@ -31,10 +32,10 @@ const EventListITem = ({ event ,deleteEvent}) => {
       </Segment>
       <Segment>
         <span style={{ marginRight: "1em" }}>
-          <Icon name="clock" /> {format(date, 'MMMM d, yyyy h:mm a')}
+          <Icon name="clock" /> {format(date, "MMMM d, yyyy h:mm a")}
         </span>
         <span>
-          <Icon name="marker" /> {venue}
+          <Icon name="marker" /> {venue.address}
         </span>
       </Segment>
       <Segment secondary>
@@ -52,22 +53,23 @@ const EventListITem = ({ event ,deleteEvent}) => {
           color="teal"
           floated="right"
           content="View"
-          as={Link} to={`/event/${event.id}`}
+          as={Link}
+          to={`/event/${event.id}`}
         />
         <Button
-          color='red'
+          color="red"
           floated="right"
           content="Delete"
-          onClick={()=> deleteEvent(event.id)}
+          onClick={() => deleteEvent(event.id)}
         />
       </Segment>
+      
     </Segment.Group>
   );
 };
 
-const mapDispatchToProps =(dispatch)=>({
-  
-  deleteEvent: (event)=>dispatch(deleteEvent(event))
-})
+const mapDispatchToProps = (dispatch) => ({
+  deleteEvent: (event) => dispatch(deleteEvent(event)),
+});
 
-export default connect(null,mapDispatchToProps) (EventListITem);
+export default connect(null, mapDispatchToProps)(EventListITem);
