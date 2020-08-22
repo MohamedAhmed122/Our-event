@@ -1,5 +1,5 @@
 import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT, FETCH_EVENT} from './EventType'
-import SampleData from '../../api/SampleData';
+
 
 const initialState ={ events:[] }
 

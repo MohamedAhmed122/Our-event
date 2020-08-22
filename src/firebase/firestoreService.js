@@ -15,8 +15,9 @@ export const dataFromSnapshot = (snapshot) => {
             }
         }
     }
+
   return {
-    ...data,
+    ...data, 
     id: snapshot.id,
 };
 };

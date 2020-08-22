@@ -38,22 +38,49 @@ import firebase from "./firebase";
 // to give you access to the firestore db
 const db = firebase.firestore();
 
-export const getEventFromFirestore = (observer) => {
-  // to get the data from the db
-  return db.collection("events").onSnapshot(observer);
+export const dataFromSnapshot = (snapshot) => {
+  if (!snapshot.exists) return undefined;
+  const data = snapshot.data();
+
+  // if you have date so it will be timeStamp and we need it to change it to time javaScript
+    for (const prop in data){
+        if ( data.hasOwnProperty(prop)){
+            if(data[prop] instanceof firebase.firestore.Timestamp){
+                data[prop] =data[prop].toDate();
+            }
+        }
+    }
+  return {
+    ...data,
+    id: snapshot.id,
+};
 };
 
+export const getEventFromFirestore = (observer) => {
+  // to get the data from the db
+return db.collection("events").onSnapshot(observer);
            --------  3  --------
+           Redux ===> create an Action
+
+export const listenEvent =(event)=>({
+    type: FETCH_EVENT,
+    payload: event
+})
 
 
-  useEffect(() => {
+
+           --------  4  --------
+useEffect(() => {
     const unsubscribe = getEventFromFirestore({
+      // this what happen next
       next: (snapshot) =>
-        console.log(snapshot.docs.map((docSnapshot) => docSnapshot.data())),
+        dispatch(
+          listenEvent(
+            snapshot.docs.map((docSnapshot) => dataFromSnapshot(docSnapshot))
+          )
+        ),
       error: (error) => console.log(error),
     });
     return unsubscribe;
-  });
-
-
+  },[dispatch]);
 

@@ -17,7 +17,11 @@ export const loadingEvents =()=> {
     ) 
 }
 
-        
+export const listenEvent =(event)=>({
+    type: FETCH_EVENT,
+    payload: event
+})
+
 
 
 export const createEvent =(event)=>({

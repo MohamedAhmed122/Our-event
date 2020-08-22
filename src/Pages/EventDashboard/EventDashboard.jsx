@@ -1,30 +1,35 @@
 import React, { useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import EventList from "../../Component/Events/EventLists/EventList";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FilterEvent from "./EventFilters";
 import {
   getEventFromFirestore,
   dataFromSnapshot,
 } from "../../firebase/firestoreService";
-import Loading from "../../Component/Loading/LoadingComponent";
+
 import EventListItemPlaceholder from "../../Component/Loading/EventListItemPlaceholder";
+import { listenEvent } from "../../redux/Event/EventAction";
 
 const EventDashboard = () => {
   const { events } = useSelector((state) => state.event);
   const { loading } = useSelector((state) => state.async);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = getEventFromFirestore({
+      // this what happen next
       next: (snapshot) =>
-        console.log(
-          snapshot.docs.map((docSnapshot) => dataFromSnapshot(docSnapshot))
+        dispatch(
+          listenEvent(
+            snapshot.docs.map((docSnapshot) => dataFromSnapshot(docSnapshot))
+          )
         ),
       error: (error) => console.log(error),
     });
     return unsubscribe;
-  });
-  // if (loading) return <EventListItemPlaceholder/>
+  },[dispatch]);
+
   return (
     <Grid>
       <Grid.Column width={10}>
