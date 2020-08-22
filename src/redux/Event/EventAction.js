@@ -1,4 +1,24 @@
-import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT} from './EventType'
+import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT, FETCH_EVENT} from './EventType'
+import {asyncStart, asyncFinish, asyncError} from '../Async/AsyncAction'
+import { fetchData } from '../../api/MockApi'
+
+
+export const loadingEvents =()=> {
+    return (async(dispatch)=>{
+        dispatch(asyncStart())
+        try {
+            const events = await fetchData();
+            dispatch({type: FETCH_EVENT, payload: events});
+            dispatch(asyncFinish())
+        } catch (error) {
+            dispatch(asyncError(error));
+        }
+    }
+    ) 
+}
+
+        
+
 
 export const createEvent =(event)=>({
     type:CREATE_EVENT,

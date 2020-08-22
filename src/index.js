@@ -10,6 +10,9 @@ import { store } from "./redux/store";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import ScrollToTop from "./Layout/ScrollToTop/ScrollToTop";
+import { loadingEvents } from "./redux/Event/EventAction";
+
+store.dispatch(loadingEvents());
 
 const root = document.getElementById("root");
 
