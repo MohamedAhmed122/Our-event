@@ -3,9 +3,9 @@ import React from "react";
 import { Segment, Header, Button } from "semantic-ui-react";
 import FormInput from "../../Forms/FormInput";
 import cuid from "cuid";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { createEvent, updateEvent } from "../../../redux/Event/EventAction";
+import { createEvent, updateEvent, listenEvent } from "../../../redux/Event/EventAction";
 import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -14,12 +14,16 @@ import FormSelect from "../../Forms/FormSelect";
 import { categoryData } from "../../../api/categoryOp";
 import FormDate from "../../Forms/FormDate";
 import PlaceInput from "../../Forms/FormPlaces";
+import { useFirestoreDoc } from "../../../firebase/hooks/useFirebaseDoc";
+import { listenToEventDoc } from "../../../firebase/firestoreService";
+import Loading from "../../Loading/LoadingComponent";
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
     state.event.events.find((e) => e.id === match.params.id)
   );
+  const {loading, error} = useSelector(state =>  state.async)
   const initialValues = selectedEvent ?? {
     title: "",
     category: "",
@@ -34,6 +38,14 @@ const EventForm = ({ match, history }) => {
     },
     date: "",
   };
+  useFirestoreDoc({
+    query: () => listenToEventDoc(match.params.id),
+    data: (event) => dispatch(listenEvent([event])),
+    deps: [match.params.id], 
+  });
+
+  if (loading || (!selectedEvent && !error)) return <Loading />;
+  if (error) return <Redirect to='/error'/>
 
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide a title"),

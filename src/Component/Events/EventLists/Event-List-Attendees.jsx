@@ -3,7 +3,7 @@ import {  Image } from "semantic-ui-react";
 
 const EventAttendees = ({attendee:{photoURL}}) => (
   <Fragment>
-    <Image size="mini" src={photoURL} circular />
+    <Image style={{marginLeft:' 1rem'}} size="mini" src={photoURL} circular />
   </Fragment>
 );
 export default EventAttendees;

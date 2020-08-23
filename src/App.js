@@ -10,6 +10,7 @@ import EventDetailedPage from "./Pages/EventDetailedPage/EventDetailedPage";
 import CreateEvent from "./Component/Events/EventForm/EventForm";
 import ModalManger from "./Component/Modal-Component/ManageModals/ModalManager";
 import {ToastContainer} from 'react-toastify'
+import ErrorComponent from "./Component/error/Error";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                   component={CreateEvent}
                   key={key}
                 />
+                <Route path='/error' component={ErrorComponent} />
               </Switch>
             </Container>
           </Fragment>

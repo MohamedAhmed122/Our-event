@@ -8,21 +8,25 @@ export const dataFromSnapshot = (snapshot) => {
   const data = snapshot.data();
 
   // if you have date so it will be timeStamp and we need it to change it to time javaScript
-    for (const prop in data){
-        if ( data.hasOwnProperty(prop)){
-            if(data[prop] instanceof firebase.firestore.Timestamp){
-                data[prop] =data[prop].toDate();
-            }
-        }
+  for (const prop in data) {
+    if (data.hasOwnProperty(prop)) {
+      if (data[prop] instanceof firebase.firestore.Timestamp) {
+        data[prop] = data[prop].toDate();
+      }
     }
+  }
 
   return {
-    ...data, 
+    ...data,
     id: snapshot.id,
-};
+  };
 };
 
-export const getEventFromFirestore = (observer) => {
-  // to get the data from the db
-return db.collection("events").onSnapshot(observer);
+export const listenToEventFromFirestore = (observer) => {
+  // to listen  data from the db
+  return db.collection("events");
+};
+
+export const listenToEventDoc = (eventId) => {
+  return db.collection("events").doc(eventId);
 };

@@ -16,7 +16,7 @@ const EVSidebar = () => (
     <Segment attached>
       <Item.Group relaxed divided>
         <Item style={{ position: "relative" }}>
-          <Item.Image size="tiny" src="/assets/user.png" />
+          <Item.Image size="tiny" src= "/assets/user.png"/>
           <Item.Content verticalAlign="middle">
             <Item.Header as="h3">
               <span>Tom</span>

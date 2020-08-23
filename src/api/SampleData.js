@@ -21,7 +21,7 @@
         },
         hostedBy: 'Bob',
         hostPhotoURL: 'https://randomuser.me/api/portraits/men/27.jpg',
-        attendees: [
+        attendees: [ 
             {
                 id: 'a',
                 name: 'Bob',
