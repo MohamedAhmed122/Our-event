@@ -65,6 +65,7 @@ export const cancelEvent = (event) => {
   });
 };
 
+// Create the collection for the Users
 export const setUserProfile=(user)=>{
   return db.collection('users').doc(user.uid).set({
     displayName: user.displayName,

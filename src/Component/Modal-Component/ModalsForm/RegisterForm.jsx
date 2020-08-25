@@ -3,11 +3,12 @@ import ModalWrapper from "../ManageModals/ModalWrapper";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormInput from "../../Forms/FormInput";
-import { Button, Label } from "semantic-ui-react";
+import { Button, Label, Divider } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 
 import {closeModal} from '../../../redux/Modal/ModalAction'
 import { RegisterInFirebase } from "../../../firebase/firebaseService";
+import SocialLogin from "./SocialLogin";
 
 const RegisterForm = () => {
     const dispatch =useDispatch()
@@ -45,6 +46,8 @@ return (
             size='large'
             fluid
             />
+            <Divider horizontal>Or</Divider>
+            <SocialLogin />
         </Form>
         )}
     </Formik>

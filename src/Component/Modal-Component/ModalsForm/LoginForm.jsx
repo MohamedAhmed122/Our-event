@@ -3,16 +3,17 @@ import ModalWrapper from "../ManageModals/ModalWrapper";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormInput from "../../Forms/FormInput";
-import { Button, Label } from "semantic-ui-react";
+import { Button, Label, Divider } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 
 import {closeModal} from '../../../redux/Modal/ModalAction'
 import { signInWithEmail } from "../../../firebase/firebaseService";
+import SocialLogin from "./SocialLogin";
 
 const LoginForm = () => {
     const dispatch =useDispatch()
 return (
-    <ModalWrapper header="Sign in to our-events" size="mini">
+    <ModalWrapper header="Login to our-events" size="mini">
     <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async(values,{setSubmitting, setErrors}) => {
@@ -43,6 +44,8 @@ return (
             size='large'
             fluid
             />
+            <Divider horizontal>Or</Divider>
+            <SocialLogin />
         </Form>
         )}
     </Formik>
