@@ -1,12 +1,13 @@
 import React from "react";
 import { Menu, Image, Dropdown } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { signOutUser } from "../../../redux/Auth/Auth.Action";
+import {useSelector } from "react-redux";
+
+import { SignOut } from "../../../firebase/firebaseService";
 
 const SignedInMenu = () => {
   const { currentUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+
   return (
     <Menu.Item position="right">
       <Image
@@ -32,7 +33,7 @@ const SignedInMenu = () => {
             icon="settings"
           />
           <Dropdown.Item
-            onClick={() => dispatch(signOutUser())}
+            onClick={()=> SignOut()}
             as={Link}
             to="/"
             text="Sign Out"
