@@ -1,4 +1,5 @@
 import firebase from "./firebase";
+import cuid from "cuid";
 
 // to give you access to the firestore db
 const db = firebase.firestore();
@@ -24,9 +25,42 @@ export const dataFromSnapshot = (snapshot) => {
 
 export const listenToEventFromFirestore = (observer) => {
   // to listen  data from the db
-  return db.collection("events");
+  return db.collection("events").orderBy("date");
 };
 
 export const listenToEventDoc = (eventId) => {
   return db.collection("events").doc(eventId);
+};
+
+//The CRUD
+//Create EVENT to the Firebase
+
+export const CreateEventToFirestore = (event) => {
+  return db.collection("events").add({
+    ...event,
+    hostedBy: "Diana",
+    hostPhotoURL: "https://randomuser.me/api/portraits/women/20.jpg",
+    attendees: firebase.firestore.FieldValue.arrayUnion({
+      id: cuid(),
+      name: "Diana",
+      photoURL: "https://randomuser.me/api/portraits/women/20.jpg",
+    }),
+  });
+};
+
+//Update EVENT to the Firebase
+export const UpdateEventToFirestore = (event) => {
+  return db.collection("events").doc(event.id).update(event);
+};
+
+//Delete EVENT to the Firebase
+export const deleteEventFromFirestore = (eventId) => {
+  return db.collection("events").doc(eventId).delete();
+};
+
+//For Cancelation EVENT to the Firebase
+export const cancelEvent = (event) => {
+  return db.collection("events").doc(event.id).update({
+    isCancel: !event.isCancel,
+  });
 };

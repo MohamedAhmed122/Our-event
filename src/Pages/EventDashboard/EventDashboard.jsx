@@ -26,7 +26,7 @@ const EventDashboard = () => {
       <Grid.Column width={10}>
         {loading ? <EventListItemPlaceholder /> : null}
         <EventList events={events} />
-      </Grid.Column>
+      </Grid.Column> 
       <Grid.Column width={6}>{loading ? null : <FilterEvent />}</Grid.Column>
     </Grid>
   );

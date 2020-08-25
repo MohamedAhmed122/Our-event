@@ -34,7 +34,7 @@ const EventDetailedPage = ({ match }) => {
           <EVInfo event={event} />
           <EVChat />
         </Grid.Column>
-        <Grid.Column width={6}>
+        <Grid.Column width={6}> 
           <EVSidebar />
         </Grid.Column>
       </Grid>

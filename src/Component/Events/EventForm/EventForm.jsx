@@ -2,10 +2,9 @@
 import React from "react";
 import { Segment, Header, Button } from "semantic-ui-react";
 import FormInput from "../../Forms/FormInput";
-import cuid from "cuid";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { createEvent, updateEvent, listenEvent } from "../../../redux/Event/EventAction";
+import { listenEvent } from "../../../redux/Event/EventAction";
 import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -15,15 +14,21 @@ import { categoryData } from "../../../api/categoryOp";
 import FormDate from "../../Forms/FormDate";
 import PlaceInput from "../../Forms/FormPlaces";
 import { useFirestoreDoc } from "../../../firebase/hooks/useFirebaseDoc";
-import { listenToEventDoc } from "../../../firebase/firestoreService";
+import {
+  listenToEventDoc,
+  UpdateEventToFirestore,
+  CreateEventToFirestore,
+  cancelEvent,
+} from "../../../firebase/firestoreService"; 
 import Loading from "../../Loading/LoadingComponent";
+import { toast } from "react-toastify";
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
     state.event.events.find((e) => e.id === match.params.id)
   );
-  const {loading, error} = useSelector(state =>  state.async)
+  const { loading, error } = useSelector((state) => state.async);
   const initialValues = selectedEvent ?? {
     title: "",
     category: "",
@@ -39,13 +44,14 @@ const EventForm = ({ match, history }) => {
     date: "",
   };
   useFirestoreDoc({
+    shouldExecute: !!match.params.id,
     query: () => listenToEventDoc(match.params.id),
     data: (event) => dispatch(listenEvent([event])),
-    deps: [match.params.id], 
+    deps: [match.params.id],
   });
 
-  if (loading || (!selectedEvent && !error)) return <Loading />;
-  if (error) return <Redirect to='/error'/>
+  if (loading) return <Loading />;
+  if (error) return <Redirect to="/error" />;
 
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide a title"),
@@ -63,19 +69,16 @@ const EventForm = ({ match, history }) => {
   return (
     <Segment clearing>
       <Formik
-        onSubmit={(values) => {
-          selectedEvent
-            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-            : dispatch(
-                createEvent({
-                  ...values,
-                  id: cuid(),
-                  hostedBy: "Bob",
-                  attendees: [],
-                  hostPhotoURL: "/assets/user.png",
-                })
-              );
-          history.push("/event");
+        onSubmit={async (values, setSubmitting) => {
+          try {
+            selectedEvent
+              ? await UpdateEventToFirestore(values)
+              : await CreateEventToFirestore(values);
+            history.push("/event");
+          } catch (error) {
+            toast.error(error.message);
+            setSubmitting(false);
+          }
         }}
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -95,9 +98,9 @@ const EventForm = ({ match, history }) => {
               rows={3}
             />
             <Header content="Event Location" color="teal" sub />
-            <PlaceInput  name="city" placeholder="City" />
+            <PlaceInput name="city" placeholder="City" />
             <PlaceInput
-            autoComplete='of'
+              autoComplete="of"
               name="venue"
               disabled={!values.city.latLng}
               placeholder="Venue"
@@ -123,6 +126,17 @@ const EventForm = ({ match, history }) => {
               positive
               content="Submit"
             />
+            {selectedEvent && (
+              <Button
+                type="button"
+                floated="left"
+                onClick={() => cancelEvent(selectedEvent)}
+                color={selectedEvent.isCancel ? "green" : "red"}
+                content={
+                  selectedEvent.isCancel ? "Reactivate event" : "Cancel Event"
+                }
+              />
+            )}
             <Button
               as={Link}
               disabled={isSubmitting}
