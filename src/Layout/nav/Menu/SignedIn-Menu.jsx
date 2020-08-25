@@ -25,7 +25,7 @@ const SignedInMenu = () => {
           />
           <Dropdown.Item text="My Events" icon="calendar" />
           <Dropdown.Item text="My Friends" icon="users" />
-          <Dropdown.Item text="My Profile" icon="user" />
+          <Dropdown.Item as={Link} to={`/profile/${currentUser.uid}`} text="My Profile" icon="user" />
           <Dropdown.Item
             as={Link}
             to="/settings"

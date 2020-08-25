@@ -14,6 +14,7 @@ import ErrorComponent from "./Component/error/Error";
 import AccountPage from "./Pages/AccountPage/AccountPage";
 import { useSelector } from "react-redux";
 import Loading from "./Component/Loading/LoadingComponent";
+import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                 />
                 <Route path='/error' component={ErrorComponent} />
                 <Route exact path='/settings' component={AccountPage}/>
+                <Route path='/profile/:id' component={ProfilePage} />
               </Switch>
             </Container>
           </Fragment>
