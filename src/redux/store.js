@@ -18,11 +18,3 @@ export const ConfigStore=()=>{
 
 
 
-
-
-
-
-
-// export function configureStore() {
-//     return 
-// }

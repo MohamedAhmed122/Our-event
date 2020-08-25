@@ -1,10 +1,11 @@
 
-import { ASYNC_ACTION_START ,ASYNC_ACTION_ERROR,ASYNC_ACTION_FINISH } from './AsyncType'
+import { ASYNC_ACTION_START ,ASYNC_ACTION_ERROR,ASYNC_ACTION_FINISH ,APP_LOADED} from './AsyncType'
 
 
 const initialState ={
     loading: false,
-    error: null
+    error: null,
+    initialized: false
 }
 
 const asyncReducer =(state= initialState ,action )=>{
@@ -25,6 +26,11 @@ const asyncReducer =(state= initialState ,action )=>{
                 ...state,
                 loading: false,
                 error: action.payload
+            }
+        case APP_LOADED:
+            return{
+                ...state,
+                initialized: true
             }
         default:
             return state;

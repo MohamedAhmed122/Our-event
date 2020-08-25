@@ -11,10 +11,16 @@ import CreateEvent from "./Component/Events/EventForm/EventForm";
 import ModalManger from "./Component/Modal-Component/ManageModals/ModalManager";
 import {ToastContainer} from 'react-toastify'
 import ErrorComponent from "./Component/error/Error";
+import AccountPage from "./Pages/AccountPage/AccountPage";
+import { useSelector } from "react-redux";
+import Loading from "./Component/Loading/LoadingComponent";
 
 
 function App() {
+
   const { key } = useLocation();
+  const {initialized} = useSelector(state => state.async)
+   if (!initialized) return <Loading />
   return (
     <Fragment>
       <ModalManger />
@@ -35,6 +41,7 @@ function App() {
                   key={key}
                 />
                 <Route path='/error' component={ErrorComponent} />
+                <Route exact path='/settings' component={AccountPage}/>
               </Switch>
             </Container>
           </Fragment>

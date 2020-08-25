@@ -45,11 +45,9 @@ export const socialLogin = async(selectedProvider)=>{
     }
 }
 
-// export const RegisterInFirebase = async (creds) => {
-//     const auth = firebase.auth();
-//     return result = await auth.createUserWithEmailAndPassword(
-//       creds.email,
-//       creds.password
-//     );
-//   };
-  
+
+export const updateUserPassword =(creds)=>{
+    const auth = firebase.auth()
+    const user = auth.currentUser;
+    return user.updatePassword(creds.newPassword1)
+}
