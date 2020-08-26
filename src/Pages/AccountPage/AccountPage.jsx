@@ -13,7 +13,7 @@ const AccountPage =()=>{
         <Segment>
             <Header content='Account' size='large' dividing />
             {currentUser.providerId === 'password' &&
-                <div>
+                <div> 
                 <Header color='teal' sub content='Change Password' />
                 <p>Use this form to change your Password</p>
                 <Formik

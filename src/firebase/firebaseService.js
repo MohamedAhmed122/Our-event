@@ -9,7 +9,7 @@ export const signInWithEmail=(creds)=>{
 
 export const SignOut=()=>{
     const auth = firebase.auth();
-    return  auth.signOut()
+    return  auth.signOut() 
 }
 
 export const RegisterInFirebase =async(creds)=>{
@@ -17,7 +17,8 @@ export const RegisterInFirebase =async(creds)=>{
         const auth = firebase.auth();
         const result = await  auth.createUserWithEmailAndPassword(creds.email,creds.password)
         await result.user.updateProfile({
-            displayName: creds.displayName
+            displayName: creds.displayName,
+            createdAt : creds.createdAt
         })
         return await setUserProfile(result.user)
     } catch (error) {
