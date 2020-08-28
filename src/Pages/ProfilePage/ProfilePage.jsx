@@ -12,23 +12,24 @@ const ProfilePage = ({ match }) => {
   const dispatch = useDispatch();
   const { currentUserProfile } = useSelector((state) => state.profile);
 
-const { loading} = useSelector((state) => state.async);
+  const { loading, error } = useSelector((state) => state.async);
 
-useFirestoreDoc({
+  useFirestoreDoc({
     query: () => getUserProfile(match.params.id),
     data: (profile) => dispatch(listenToCurrentUserProfile(profile)),
     deps: [dispatch, match.params.id],
-});
+  });
 
-    if (loading) return <Loading />;
+  if ((loading && !currentUserProfile) || (!currentUserProfile && !error))
+    return <Loading />;
 
-return (
+  return (
     <Grid>
-        <Grid.Column width={16}>
-            <ProfileHeader profile={currentUserProfile} />
-            <ProfileContent profile={currentUserProfile} />
-        </Grid.Column>
+      <Grid.Column width={16}>
+        <ProfileHeader profile={currentUserProfile} />
+        <ProfileContent profile={currentUserProfile} />
+      </Grid.Column>
     </Grid>
-);
+  );
 };
 export default ProfilePage;

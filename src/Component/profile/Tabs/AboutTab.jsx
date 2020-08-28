@@ -3,9 +3,10 @@ import { Tab, Grid, Header, Button } from "semantic-ui-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileForm from "./ProfileForm";
+import { format } from "date-fns";
 
 
-const AboutTab = () => {
+const AboutTab = ({profile}) => {
 const [editMode, setEditMode] = useState(null);
 const { currentUser } = useSelector((state) => state.auth);
 console.log(currentUser);
@@ -16,7 +17,7 @@ return (
             <Header
                 floated="left"
                 icon="user"
-                content={`About ${currentUser.displayName}`}
+                content={`About ${profile.displayName}`}
             />
             <Button
                 basic
@@ -32,7 +33,7 @@ return (
                 <>
                 <div style={{ marginBottom: 15 }}>
                   <strong>
-                    Member since:   25 August 2020 
+                  Member since: {format(profile.createdAt, 'dd MMM yyyy')}
                   </strong>
                   <div>{currentUser.description || ''}</div>
                 </div>
