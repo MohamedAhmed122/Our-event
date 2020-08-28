@@ -1,16 +1,17 @@
 import React from "react";
 import { Tab, Grid, Header, Button, Card, Image } from "semantic-ui-react";
 import { useState } from "react";
+import UploadPhoto from "./UploadPhoto";
 
 
 const PhotosTab = ({ profile, isCurrentUser }) => {
-  const [editMode, setEditMode] = useState(null);
+  const [editMode, setEditMode] = useState(true);
 
   return (
     <Tab.Pane>
         <Grid>
             <Grid.Column width={16}>
-            <Header floated="left" icon="user" content={"My Photos"} />
+            <Header floated="left" icon='photo' content={"My Photos"} />
             {isCurrentUser && (
                 <Button
                 basic
@@ -22,7 +23,7 @@ const PhotosTab = ({ profile, isCurrentUser }) => {
             </Grid.Column>
             <Grid.Column width={16}>
             {editMode ? (
-                <h2>Profile Picture will come here</h2>
+                <UploadPhoto/>
             ) : (
                 <Card.Group itemsPerRow={5}>
                     <Card>

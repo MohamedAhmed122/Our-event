@@ -27,7 +27,7 @@ const ProfileHeader =({profile , isCurrentUser})=>{
                 </Statistic.Group>
                 <Divider />
                 {
-                    isCurrentUser &&
+                    !isCurrentUser &&
                     <Reveal animated='move'>
                     <Reveal.Content visible style={{width: '100%'}}>
                         <Button fluid color='teal' content='Following' />

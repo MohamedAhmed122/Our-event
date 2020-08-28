@@ -6,7 +6,7 @@ import ProfileForm from "./ProfileForm";
 
 
 const AboutTab = ({ profile, isCurrentUser }) => {
-  const [editMode, setEditMode] = useState(null);
+  const [editMode, setEditMode] = useState(false);
  
 
   return (
