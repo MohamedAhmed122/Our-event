@@ -20,7 +20,7 @@ import {
   CreateEventToFirestore,
   cancelEvent,
 } from "../../../firebase/firestoreService"; 
-import Loading from "../../Loading/LoadingComponent";
+import Loading from '../../../Layout/Loading/LoadingComponent';
 import { toast } from "react-toastify";
 
 const EventForm = ({ match, history }) => {

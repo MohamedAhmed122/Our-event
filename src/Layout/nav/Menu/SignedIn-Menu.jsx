@@ -6,6 +6,7 @@ import {useSelector } from "react-redux";
 import { SignOut } from "../../../firebase/firebaseService";
 
 const SignedInMenu = () => {
+  
   const { currentUser } = useSelector((state) => state.auth);
 
   return (

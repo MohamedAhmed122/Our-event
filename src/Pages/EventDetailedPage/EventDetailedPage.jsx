@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFirestoreDoc } from "../../firebase/hooks/useFirebaseDoc";
 import { listenToEventDoc } from "../../firebase/firestoreService";
 import { listenEvent } from "../../redux/Event/EventAction";
-import Loading from '../../Component/Loading/LoadingComponent'
+import Loading from '../../Layout/Loading/LoadingComponent'
 import { Redirect } from "react-router-dom";
 
 const EventDetailedPage = ({ match }) => {
