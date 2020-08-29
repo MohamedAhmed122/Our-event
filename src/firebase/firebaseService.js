@@ -2,6 +2,7 @@ import firebase from './firebase'
 import { setUserProfile } from './firestoreService';
 import { toast } from 'react-toastify';
 
+
 export const signInWithEmail=(creds)=>{
     const auth = firebase.auth();
     return  auth.signInWithEmailAndPassword(creds.email,creds.password)
@@ -51,4 +52,10 @@ export const updateUserPassword =(creds)=>{
     const auth = firebase.auth()
     const user = auth.currentUser;
     return user.updatePassword(creds.newPassword1)
+}
+
+export const uploadToFirebaseStorage =(file,fileName)=>{
+    const user = firebase.auth().currentUser;
+    const storageRef = firebase.storage().ref();
+    return storageRef.child(`${user.uid}/user_images/${fileName}`).put(file)
 }

@@ -23,7 +23,7 @@ const PhotosTab = ({ profile, isCurrentUser }) => {
             </Grid.Column>
             <Grid.Column width={16}>
             {editMode ? (
-                <UploadPhoto/>
+                <UploadPhoto setEditMode={setEditMode}/>
             ) : (
                 <Card.Group itemsPerRow={5}>
                     <Card>
