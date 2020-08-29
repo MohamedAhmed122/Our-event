@@ -69,15 +69,15 @@ const EventForm = ({ match, history }) => {
   return (
     <Segment clearing>
       <Formik
-        onSubmit={async (values, setSubmitting) => {
+        onSubmit={async (values, ) => {
           try {
             selectedEvent
               ? await UpdateEventToFirestore(values)
               : await CreateEventToFirestore(values);
             history.push("/event");
           } catch (error) {
-            toast.error(error.message);
-            setSubmitting(false);
+            console.log(error.message)
+         
           }
         }}
         initialValues={initialValues}

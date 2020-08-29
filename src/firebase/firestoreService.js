@@ -38,13 +38,13 @@ export const listenToEventDoc = (eventId) => {
 export const CreateEventToFirestore = (event) => {
   return db.collection("events").add({
     ...event,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp().toDate(),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     hostedBy: "Lisa",
-    hostPhotoURL: "https://randomuser.me/api/portraits/women/28.jpg",
+    hostPhotoURL: "https://randomuser.me/api/portraits/men/44.jpg",
     attendees: firebase.firestore.FieldValue.arrayUnion({
       id: cuid(),
       name: "Lisa",
-      photoURL: "https://randomuser.me/api/portraits/women/28.jpg",
+      photoURL: "https://randomuser.me/api/portraits/men/44.jpg",
     }),
   });
 };
@@ -54,7 +54,7 @@ export const UpdateEventToFirestore = (event) => {
   return db.collection("events").doc(event.id).update(event);
 };
 
-//Delete EVENT to the Firebase 
+//Delete EVENT to the Firebase
 export const deleteEventFromFirestore = (eventId) => {
   return db.collection("events").doc(eventId).delete();
 };
@@ -67,53 +67,71 @@ export const cancelEvent = (event) => {
 };
 
 // Create the collection for the Users
-export const setUserProfile=(user)=>{
-  return db.collection('users').doc(user.uid).set({
+export const setUserProfile = (user) => {
+  return db.collection("users").doc(user.uid).set({
     displayName: user.displayName,
     email: user.email,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  })
-}
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+};
 
-export const getUserProfile =(userId) =>{
-  return db.collection('users').doc(userId);
-}
+export const getUserProfile = (userId) => {
+  return db.collection("users").doc(userId);
+};
 
-export const updateProfile =async(value) =>{
-  const  user = firebase.auth().currentUser;
+export const updateProfile = async (value) => {
+  const user = firebase.auth().currentUser;
   try {
     await user.updateProfile({
-      displayName: value.displayName
-    })
-    return await db.collection('users').doc(user.uid).update(value)
+      displayName: value.displayName,
+    });
+    return await db.collection("users").doc(user.uid).update(value);
   } catch (error) {
-    throw error
+    throw error;
   }
-  
-}
+};
 
 // to update user profile photo
-export const updateUserProfilePhoto =async(downloadURL,fileName)=>{
+export const updateUserProfilePhoto = async (downloadURL, fileName) => {
   const user = firebase.auth().currentUser;
-  const userDocRef = db.collection('users').doc(user.uid);
+  const userDocRef = db.collection("users").doc(user.uid);
   try {
     //we get the data from the userDoc
     const userDoc = await userDocRef.get();
-    if(!userDoc.data().photoURL){
-      await db.collection('users').doc(user.uid).update({
-        photoURL: downloadURL
-      })
-      // to update the user auth 
+    if (!userDoc.data().photoURL) {
+      await db.collection("users").doc(user.uid).update({
+        photoURL: downloadURL,
+      });
+      // to update the user auth
       await user.updateProfile({
-        photoURL: downloadURL
-      })
+        photoURL: downloadURL,
+      });
     }
     //add the photos to the the user's photo collection inside their doc
-    return await db.collection('users').doc(user.uid).collection('photos').add({
+    return await db.collection("users").doc(user.uid).collection("photos").add({
       name: fileName,
-      url: downloadURL
-    })
+      url: downloadURL,
+    });
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
+
+export const getUserPhotos = (userId) => {
+  return db.collection("users").doc(userId).collection("photos");
+};
+
+export const setMainPhoto = async (photo) => {
+  const user = firebase.auth().currentUser;
+
+  try {
+    await db.collection("users").doc(user.uid).update({
+      photoURL: photo.url,
+    });
+    return await user.updateProfile({
+      photoURL: photo.url,
+    });
+  } catch (error) {
+    throw error;
+  }
+};

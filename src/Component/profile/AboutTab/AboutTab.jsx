@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab, Grid, Header, Button } from "semantic-ui-react";
 import { useState } from "react";
-
+import {format} from 'date-fns'
 import ProfileForm from "./ProfileForm";
 
 
@@ -34,8 +34,8 @@ const AboutTab = ({ profile, isCurrentUser }) => {
                 <>
                 <div style={{ marginBottom: 15 }}>
                     <strong>
-                    {/* Member since: {(profile.createdAt)} */}
-                    </strong>
+                    Member since: <span style={{marginLeft: 2}}>{format((profile.createdAt), 'dd mm yyyy')}</span> 
+                    </strong>  
                     {profile.description ? (
                     <div style={{ marginTop: 20 }}>
                         {" "}
