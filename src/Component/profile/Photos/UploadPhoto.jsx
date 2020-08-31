@@ -27,6 +27,7 @@ export default function PhotoUploadWidget({setEditMode}) {
       uploadTask.on('state_changed', snapshot => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log('Upload is ' + progress + '% done');
+        
       }, error => {
         toast.error(error.messege);
       }, () => {
@@ -35,6 +36,7 @@ export default function PhotoUploadWidget({setEditMode}) {
             setLoading(false);
             handleCancelCrop();
             setEditMode(false);
+            toast.success('Success,Photo has been uploaded')
           }).catch(error => {
             toast.error(error.message);
             setLoading(false);
@@ -74,7 +76,7 @@ export default function PhotoUploadWidget({setEditMode}) {
                 style={{ minHeight: 200, minWidth: 200, overflow: 'hidden' }}
               />
               <Button.Group>
-                <Button loading={loading} onClick={handleUploadImage} style={{ width: 100 }} positive icon='check' />
+                <Button loading={loading}  onClick={handleUploadImage} style={{ width: 100 }} positive icon='check' />
                 <Button disabled={loading} onClick={handleCancelCrop} style={{ width: 100 }} icon='close' />
               </Button.Group>
             </>

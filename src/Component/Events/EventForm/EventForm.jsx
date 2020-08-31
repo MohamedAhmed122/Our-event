@@ -75,9 +75,9 @@ const EventForm = ({ match, history }) => {
               ? await UpdateEventToFirestore(values)
               : await CreateEventToFirestore(values);
             history.push("/event");
+            toast.success('Success,Event has been created')
           } catch (error) {
-            console.log(error.message)
-         
+            toast.error(error.message)
           }
         }}
         initialValues={initialValues}

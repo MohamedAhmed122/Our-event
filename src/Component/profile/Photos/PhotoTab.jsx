@@ -2,8 +2,11 @@ import React from "react";
 import { Tab, Grid, Header, Button, Card, Image } from "semantic-ui-react";
 import { useState } from "react";
 import UploadPhoto from "./UploadPhoto";
-import {useFirestoreCollection} from "../../../firebase/hooks/useFirestoreCollection";
-import { getUserPhotos, setMainPhoto } from "../../../firebase/firestoreService";
+import { useFirestoreCollection } from "../../../firebase/hooks/useFirestoreCollection";
+import {
+    getUserPhotos,
+    setMainPhoto,
+} from "../../../firebase/firestoreService";
 import { useDispatch, useSelector } from "react-redux";
 import { listenToUserPhoto } from "../../../redux/Profile/ProfileAction";
 import { toast } from "react-toastify";
@@ -11,7 +14,7 @@ import { toast } from "react-toastify";
 const PhotosTab = ({ profile, isCurrentUser }) => {
 const dispatch = useDispatch();
 const [editMode, setEditMode] = useState(false);
-const [update, setUpdate] =useState(false)
+const [update, setUpdate] = useState({ isUpdating: false, target: null });
 const { photos } = useSelector((state) => state.profile);
 const { loading } = useSelector((state) => state.async);
 
@@ -21,16 +24,19 @@ useFirestoreCollection({
     deps: [profile.id, dispatch],
 });
 
-const handleMainPhoto = async(photo)=>{
-    setUpdate(true);
+const handleMainPhoto = async (photo, target) => {
+    setUpdate({ isUpdating: true, target });
     try {
-        await setMainPhoto(photo)
-        // toast.success('Success','Photo has been updated')
-    } catch (error) {
-        toast.error(error.message)
-        setUpdate(false)
+        await setMainPhoto(photo);
+        toast.success(
+            "Success,Photo has been updated and refresh the page, Please"
+        );
+        } catch (error) {
+        toast.error(error.message);
+        } finally {
+        setUpdate({ isUpdating: true, target: null });
     }
-}
+};
 
 return (
     <Tab.Pane loading={loading}>
@@ -55,7 +61,15 @@ return (
                     <Card key={photo.id}>
                     <Image src={photo.url} />
                     <Button.Group>
-                        <Button loading={update} onClick={()=> handleMainPhoto(photo)} basic color="green" content="main" />
+                        <Button
+                        name={photo.id}
+                        loading={(update.isUpdating, update.target === photo.id)}
+                        onClick={(e) => handleMainPhoto(photo, e.target.name)}
+                        basic
+                        color="green"
+                        content="main"
+                        type="submit"
+                        />
                         <Button basic color="red" icon="trash" />
                     </Button.Group>
                     </Card>
