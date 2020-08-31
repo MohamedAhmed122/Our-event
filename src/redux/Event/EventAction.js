@@ -1,4 +1,4 @@
-import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT, FETCH_EVENT} from './EventType'
+import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT, FETCH_EVENT, LISTEN_TO_EVENT_CHAT} from './EventType'
 import {asyncStart, asyncFinish, asyncError} from '../Async/AsyncAction'
 import { fetchData } from '../../api/MockApi'
 
@@ -38,4 +38,8 @@ export const updateEvent =(event)=>({
 export const deleteEvent =(event)=>({
     type:DELETE_EVENT,
     payload: event
+})
+export const listenToEventChat =(comment)=>({
+    type: LISTEN_TO_EVENT_CHAT,
+    payload: comment
 })

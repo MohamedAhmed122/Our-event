@@ -1,7 +1,10 @@
-import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT, FETCH_EVENT} from './EventType'
+import {UPDATE_EVENT,CREATE_EVENT,DELETE_EVENT, FETCH_EVENT, LISTEN_TO_EVENT_CHAT} from './EventType'
 
 
-const initialState ={ events:[] }
+const initialState ={ 
+    events:[],
+    comment: [] 
+}
 
 
 const eventReducer=(state = initialState, { type, payload }) => {
@@ -28,6 +31,11 @@ const eventReducer=(state = initialState, { type, payload }) => {
             return{
                 ...state,
                 events: payload
+            }
+        case LISTEN_TO_EVENT_CHAT:
+            return{
+                ...state,
+                comment: payload
             }
         default:
             return state;

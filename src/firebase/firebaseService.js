@@ -3,6 +3,13 @@ import { setUserProfile } from './firestoreService';
 import { toast } from 'react-toastify';
 
 
+// Convert from object To Array
+export const ConvertToArray =(array)=>{
+    if(array){
+        return Object.entries(array).map(e => Object.assign({}, e[1],{id: e[0]}))
+    }
+}
+
 export const signInWithEmail=(creds)=>{
     const auth = firebase.auth();
     return  auth.signInWithEmailAndPassword(creds.email,creds.password)
@@ -80,4 +87,8 @@ export const addEventChatComment =(eventId,comment)=>{
     // and every event has it is own chat then push the comment
     return firebase.database().ref(`chat/${eventId}`).push(newComment);
 
+}
+
+export const getEventChatRef =(eventId)=>{
+    return firebase.database().ref(`chat/${eventId}`).orderByKey()
 }

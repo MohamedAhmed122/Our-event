@@ -13,9 +13,8 @@ const AboutTab = ({ profile, isCurrentUser }) => {
             <Grid.Column width={16}>
             <Header
                 floated="left"
-                icon="user teal"
                 content={`About ${profile.displayName}`}
-            />
+            />  
             {isCurrentUser && (
                 <Button
                 basic
@@ -40,7 +39,7 @@ const AboutTab = ({ profile, isCurrentUser }) => {
                     </h5>
                     {profile.description && (
                     <h5 style={{ marginTop: 20 }}>
-                        <Icon name="address card outline" color="teal " /> Bio:{" "}
+                        <Icon name="address card outline" color="teal" /> Bio:{" "}
                         {profile.description || ""}
                     </h5>
                     )}
