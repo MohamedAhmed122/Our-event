@@ -1,7 +1,7 @@
 import React from "react";
 import { Segment, Item, Icon, List, Button, Label } from "semantic-ui-react";
 import EventAttendees from "./Event-List-Attendees";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { deleteEvent } from "../../../redux/Event/EventAction";
 import { connect } from "react-redux";
 import { format } from "date-fns";

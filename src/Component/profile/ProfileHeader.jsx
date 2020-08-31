@@ -1,6 +1,5 @@
 import React from 'react';
 import { Segment, Grid, Item, Header, Statistic, Divider, Reveal, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 
 
 

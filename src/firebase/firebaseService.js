@@ -65,3 +65,19 @@ export const deleteFromFirbaseStorage =(fileName)=>{
     const storageRef = firebase.storage().ref();
     return storageRef.child(`${userUid}/user_images/${fileName}`).delete()
 }
+
+export const addEventChatComment =(eventId,comment)=>{
+    const user = firebase.auth().currentUser;
+
+    const newComment ={
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        uid: user.uid,
+        text: comment,
+        date: Date.now()
+    }
+    // access the firebase database and get the ref of the location of the store
+    // and every event has it is own chat then push the comment
+    return firebase.database().ref(`chat/${eventId}`).push(newComment);
+
+}
