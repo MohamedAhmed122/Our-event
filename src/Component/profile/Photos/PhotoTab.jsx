@@ -6,15 +6,18 @@ import { useFirestoreCollection } from "../../../firebase/hooks/useFirestoreColl
 import {
     getUserPhotos,
     setMainPhoto,
+    deletePhotoFromCollection,
 } from "../../../firebase/firestoreService";
 import { useDispatch, useSelector } from "react-redux";
 import { listenToUserPhoto } from "../../../redux/Profile/ProfileAction";
 import { toast } from "react-toastify";
+import { deleteFromFirbaseStorage } from "../../../firebase/firebaseService";
 
 const PhotosTab = ({ profile, isCurrentUser }) => {
 const dispatch = useDispatch();
 const [editMode, setEditMode] = useState(false);
 const [update, setUpdate] = useState({ isUpdating: false, target: null });
+const [deleting, setDeleting] = useState({ isDeleting: false, target: null });
 const { photos } = useSelector((state) => state.profile);
 const { loading } = useSelector((state) => state.async);
 
@@ -25,20 +28,33 @@ useFirestoreCollection({
 });
 
 const handleMainPhoto = async (photo, target) => {
-    setUpdate({ isUpdating: true, target });
+setUpdate({ isUpdating: true, target });
+try {
+    await setMainPhoto(photo);
+    toast.success(
+    "Success,Photo has been updated and refresh the page, Please"
+    );
+} catch (error) {
+    toast.error(error.message);
+} finally {
+    setUpdate({ isUpdating: true, target: null });
+}
+};
+
+const deletePhoto = async (photo, target) => {
+    setDeleting({ isDeleting: true, target });
     try {
-        await setMainPhoto(photo);
-        toast.success(
-            "Success,Photo has been updated and refresh the page, Please"
-        );
-        } catch (error) {
+        await deleteFromFirbaseStorage(photo.name);
+        await deletePhotoFromCollection(photo.id);
+        toast.info("Success, Photo has been Deleted");
+    } catch (error) {
         toast.error(error.message);
-        } finally {
-        setUpdate({ isUpdating: true, target: null });
+    } finally {
+        setDeleting({ isDeleting: false, target: null });
     }
 };
 
-return (
+  return (
     <Tab.Pane loading={loading}>
         <Grid>
             <Grid.Column width={16}>
@@ -70,7 +86,16 @@ return (
                         content="main"
                         type="submit"
                         />
-                        <Button basic color="red" icon="trash" />
+                        <Button
+                        name={photo.id}
+                        onClick={(e) => deletePhoto(photo, e.target.name)}
+                        loading={
+                            (deleting.isDeleting, deleting.target === photo.id)
+                        }
+                        basic
+                        color="red"
+                        icon="trash"
+                        />
                     </Button.Group>
                     </Card>
                 ))}
@@ -79,6 +104,6 @@ return (
             </Grid.Column>
         </Grid>
     </Tab.Pane>
-);
+  );
 };
 export default PhotosTab;

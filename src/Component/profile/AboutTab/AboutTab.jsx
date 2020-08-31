@@ -1,13 +1,11 @@
 import React from "react";
-import { Tab, Grid, Header, Button } from "semantic-ui-react";
+import { Tab, Grid, Header, Button, Icon } from "semantic-ui-react";
 import { useState } from "react";
-import {format} from 'date-fns'
+import { format } from "date-fns";
 import ProfileForm from "./ProfileForm";
-
 
 const AboutTab = ({ profile, isCurrentUser }) => {
   const [editMode, setEditMode] = useState(false);
- 
 
   return (
     <Tab.Pane>
@@ -15,7 +13,7 @@ const AboutTab = ({ profile, isCurrentUser }) => {
             <Grid.Column width={16}>
             <Header
                 floated="left"
-                icon="user"
+                icon="user teal"
                 content={`About ${profile.displayName}`}
             />
             {isCurrentUser && (
@@ -29,25 +27,35 @@ const AboutTab = ({ profile, isCurrentUser }) => {
             </Grid.Column>
             <Grid.Column width={16}>
             {editMode ? (
-                <ProfileForm profile={profile} />
+                <ProfileForm setEditMode={setEditMode} profile={profile} />
             ) : (
                 <>
                 <div style={{ marginBottom: 15 }}>
-                    <strong>
-                    Member since: <span style={{marginLeft: 2}}>{format((profile.createdAt), 'dd mm yyyy')}</span> 
-                    </strong>  
-                    {profile.description ? (
-                    <div style={{ marginTop: 20 }}>
-                        {" "}
-                        Bio: {profile.description || ""}
-                    </div>
-                    ) : null}
+                    <h5>
+                    <Icon name="time" color="teal" />
+                    Member since:{" "}
+                    <span style={{ marginLeft: 2 }}>
+                        {format(profile.createdAt, "dd mm yyyy")}
+                    </span>
+                    </h5>
+                    {profile.description && (
+                    <h5 style={{ marginTop: 20 }}>
+                        <Icon name="address card outline" color="teal " /> Bio:{" "}
+                        {profile.description || ""}
+                    </h5>
+                    )}
+                    {profile.dateOfBirth && (
+                    <h5>
+                        <Icon name="birthday cake" color="teal" /> Was born in{" "}
+                        {profile.dateOfBirth || ""}
+                    </h5>
+                    )}
                 </div>
                 </>
             )}
             </Grid.Column>
         </Grid>
     </Tab.Pane>
-);
+  );
 };
 export default AboutTab;
