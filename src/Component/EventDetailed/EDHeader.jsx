@@ -1,9 +1,32 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Segment, Image, Item, Header, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import { addUserAttendance, cancelUserAttendance } from "../../firebase/firestoreService";
 
 const EVHeader = ({ event, isHost, isGoing }) => {
+  const [loading, setLoading] = useState(false);
+  const handleAddUser = async () => {
+    setLoading(true);
+    try {
+      await addUserAttendance(event);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleCancel = async () => {
+    setLoading(true);
+    try {
+      await cancelUserAttendance(event);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   const eventImageStyle = {
     filter: "brightness(30%)",
   };
@@ -36,7 +59,7 @@ const EVHeader = ({ event, isHost, isGoing }) => {
                 />
                 <p>{format(event.date, "MMMM d, yyyy h:mm a")}</p>
                 <p>
-                  Hosted by <strong>{event.hostedBy}</strong>
+                  Hosted by <strong><Link to={`/profile/${event.hostUId}`}> {event.hostedBy} </Link></strong>
                 </p>
               </Item.Content>
             </Item>
@@ -48,9 +71,11 @@ const EVHeader = ({ event, isHost, isGoing }) => {
         {!isHost && (
           <Fragment>
             {isGoing ? (
-              <Button>Cancel My Place</Button>
+              <Button onClick={handleCancel} loading={loading} >Cancel My Place</Button>
             ) : (
-              <Button color="teal">JOIN THIS EVENT</Button>
+              <Button color="teal" loading={loading} onClick={handleAddUser}>
+                JOIN THIS EVENT
+              </Button>
             )}
           </Fragment>
         )}

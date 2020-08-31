@@ -1,11 +1,10 @@
 import React from 'react';
 import { Segment, Grid, Item, Header, Statistic, Divider, Reveal, Button } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 
 const ProfileHeader =({profile , isCurrentUser})=>{
-    const {currentUser} =useSelector(state => state.auth)
     console.log(profile);
     return(
         <Segment>
@@ -13,9 +12,9 @@ const ProfileHeader =({profile , isCurrentUser})=>{
             <Grid.Column width={12}>
                 <Item.Group>
                     <Item>
-                        <Item.Image avatar size='small' src={currentUser.photoURL || '/assets/user.png'}  />
+                        <Item.Image avatar size='small' src={profile.photoURL || '/assets/user.png'}  />
                         <Item.Content verticalAlign='middle'>
-                            <Header as='h1' style={{display: 'block', marginBottom: 10}} content={profile.displayName}/>
+                            <Header style={{display: 'block', marginBottom: 10}} content={profile.displayName}/>
                         </Item.Content>
                     </Item>
                 </Item.Group>

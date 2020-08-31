@@ -1,7 +1,7 @@
 import React from "react";
 import { Segment, Item, Icon, List, Button, Label } from "semantic-ui-react";
 import EventAttendees from "./Event-List-Attendees";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { deleteEvent } from "../../../redux/Event/EventAction";
 import { connect } from "react-redux";
 import { format } from "date-fns";
@@ -17,6 +17,7 @@ const EventListITem = ({ event, deleteEvent }) => {
     venue,
     description,
     isCancel,
+    hostUId
   } = event;
   return (
     <Segment.Group>
@@ -26,7 +27,9 @@ const EventListITem = ({ event, deleteEvent }) => {
             <Item.Image size="tiny" src={hostPhotoURL} circular />
             <Item.Content>
               <Item.Header content={title} />
-              <Item.Description>{hostedBy}</Item.Description>
+              <br/>
+              <br />
+              <Item.Description>Hosted by <Link to={`/profile/${hostUId}`}> {hostedBy}</Link> </Item.Description>
               {isCancel ? (
                 <Label
                   color="red"
@@ -49,7 +52,7 @@ const EventListITem = ({ event, deleteEvent }) => {
       </Segment>
       <Segment secondary>
         <List horizontal>
-          <List.Item>
+          <List.Item as={Link} to={`/profile/${hostUId}`}>
             {attendees.map((attendee) => (
               <EventAttendees key={attendee.id} attendee={attendee} />
             ))}

@@ -41,9 +41,7 @@ const EventDetailedPage = ({ match }) => {
           <EVChat />
         </Grid.Column>
         <Grid.Column width={6}>
-          {event.attendees.map((attendee) => (
-            <EVSidebar attendee={attendee} key={attendee.id} />
-          ))}
+          <EVSidebar event={event}  />
         </Grid.Column>
       </Grid>
     </Fragment>
