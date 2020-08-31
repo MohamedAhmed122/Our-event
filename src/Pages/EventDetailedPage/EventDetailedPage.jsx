@@ -8,34 +8,42 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFirestoreDoc } from "../../firebase/hooks/useFirebaseDoc";
 import { listenToEventDoc } from "../../firebase/firestoreService";
 import { listenEvent } from "../../redux/Event/EventAction";
-import Loading from '../../Layout/Loading/LoadingComponent'
+import Loading from "../../Layout/Loading/LoadingComponent";
 import { Redirect } from "react-router-dom";
 
 const EventDetailedPage = ({ match }) => {
   const { loading, error } = useSelector((state) => state.async);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
   const event = useSelector((state) =>
     state.event.events.find((e) => e.id === match.params.id)
+  );
+
+  const isHost = event?.hostUId === currentUser.uid;
+  const isGoing = event?.attendees?.some(
+    (attendee) => attendee.id === currentUser.uid
   );
 
   useFirestoreDoc({
     query: () => listenToEventDoc(match.params.id),
     data: (event) => dispatch(listenEvent([event])),
-    deps: [match.params.id], 
+    deps: [match.params.id],
   });
 
-  if (loading || (!event && !error)) return <Loading />;
-  if (error) return <Redirect to='/error'/>
+  if (loading || !currentUser || (!event && !error)) return <Loading />;
+  if (error) return <Redirect to="/error" />;
   return (
     <Fragment>
       <Grid>
         <Grid.Column width={10}>
-          <EVHeader event={event} />
+          <EVHeader event={event} isHost={isHost} isGoing={isGoing} />
           <EVInfo event={event} />
           <EVChat />
         </Grid.Column>
-        <Grid.Column width={6}> 
-          <EVSidebar />
+        <Grid.Column width={6}>
+          {event.attendees.map((attendee) => (
+            <EVSidebar attendee={attendee} key={attendee.id} />
+          ))}
         </Grid.Column>
       </Grid>
     </Fragment>

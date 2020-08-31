@@ -36,16 +36,20 @@ export const listenToEventDoc = (eventId) => {
 //Create EVENT to the Firebase
 
 export const CreateEventToFirestore = (event) => {
+  const user = firebase.auth().currentUser
   return db.collection("events").add({
     ...event,
+    hostUId: user.uid,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    hostedBy: "Lisa",
-    hostPhotoURL: "https://randomuser.me/api/portraits/men/44.jpg",
+    hostedBy: user.displayName,
+    hostPhotoURL: user.photoURL || null,
     attendees: firebase.firestore.FieldValue.arrayUnion({
-      id: cuid(),
-      name: "Lisa",
-      photoURL: "https://randomuser.me/api/portraits/men/44.jpg",
+      id: user.uid,
+      displayName: user.displayName,
+      photoURL: user.photoURL || null,
     }),
+    // need to query the array
+    attendeeIds: firebase.firestore.FieldValue.arrayUnion(user.uid)
   });
 };
 

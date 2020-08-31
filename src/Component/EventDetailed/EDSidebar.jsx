@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Segment, Item } from "semantic-ui-react";
 
-const EVSidebar = () => (
+const EVSidebar = ({ attendee }) => (
   <Fragment>
     <Segment
       textAlign="center"
@@ -11,23 +11,20 @@ const EVSidebar = () => (
       inverted
       color="teal"
     >
-      2 People Going
+      {attendee.id.length > 1
+        ? "one person is going to the Event "
+        : " People are going to the Event"}
     </Segment>
     <Segment attached>
       <Item.Group relaxed divided>
-        <Item style={{ position: "relative" }}>
-          <Item.Image size="tiny" src= "/assets/user.png"/>
+        <Item key={attendee.id} style={{ position: "relative" }}>
+          <Item.Image
+            size="tiny"
+            src={attendee.photoURL || "/assets/user.png"}
+          />
           <Item.Content verticalAlign="middle">
             <Item.Header as="h3">
-              <span>Tom</span>
-            </Item.Header>
-          </Item.Content>
-        </Item>
-        <Item style={{ position: "relative" }}>
-          <Item.Image size="tiny" src="/assets/user.png" />
-          <Item.Content verticalAlign="middle">
-            <Item.Header as="h3">
-              <span>Bob</span>
+              <span>{attendee.displayName}</span>
             </Item.Header>
           </Item.Content>
         </Item>
