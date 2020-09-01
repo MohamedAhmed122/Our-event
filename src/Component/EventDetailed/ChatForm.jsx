@@ -21,11 +21,12 @@ return (
                 }
             }}
         >
-            {({ isSubmitting }) => (
+            {({ isSubmitting ,dirty }) => (
             <Form className=" ui form">
                 <FormArea name="comment" placeholder="Type your Comment here" rows={2} />
                 <Button
                 loading={isSubmitting}
+                disabled={!dirty || isSubmitting}
                 content="Add Reply"
                 labelPosition="left"
                 icon="edit"

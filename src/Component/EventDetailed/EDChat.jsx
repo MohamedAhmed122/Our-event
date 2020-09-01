@@ -9,6 +9,7 @@ import {
 } from "../../firebase/firebaseService";
 import { listenToEventChat } from "../../redux/Event/EventAction";
 import { Link } from "react-router-dom";
+import { CLEAR_COMMENTS } from "../../redux/Event/EventType";
 
 const EVChat = ({ eventId }) => {
     const dispatch = useDispatch();
@@ -18,6 +19,11 @@ useEffect(() => {
     getEventChatRef(eventId).on("value", (snapshot) => {
         if (!snapshot.exists()) return;
         dispatch(listenToEventChat(ConvertToArray(snapshot.val())));
+    
+    return() =>{
+        dispatch({type: CLEAR_COMMENTS});
+        getEventChatRef().off()
+    }
 });
 }, [eventId, dispatch]);
 
