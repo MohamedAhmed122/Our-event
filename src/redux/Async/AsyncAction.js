@@ -11,7 +11,10 @@ export const asyncFinish =()=>({
 })
 
 
-export const asyncError =(error)=>({
-    type: ASYNC_ACTION_ERROR,
-    payload: error
-})
+export const asyncError =(error)=>{
+    console.log(error)
+    return{
+        type: ASYNC_ACTION_ERROR,
+        payload: error
+    }
+}
