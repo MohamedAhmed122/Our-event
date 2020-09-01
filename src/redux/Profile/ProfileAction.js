@@ -1,4 +1,4 @@
-import{ LISTEN_TO_CURRENT_USER_PROFILE, LISTEN_TO_SELECTED_USER_PROFILE, LISTEN_TO_USER_PHOTO} from './ProfileType'
+import{ LISTEN_TO_CURRENT_USER_PROFILE, LISTEN_TO_SELECTED_USER_PROFILE, LISTEN_TO_USER_PHOTO, LISTEN_TO_USER_EVENT} from './ProfileType'
 
 
 
@@ -16,4 +16,9 @@ export const listenToSelectedUserProfile =(profile) =>({
 export const listenToUserPhoto=(photo) =>({
     type: LISTEN_TO_USER_PHOTO,
     payload: photo
+})
+
+export const listenToUserEvent =(event)=>({
+    type: LISTEN_TO_USER_EVENT,
+    payload: event
 })
