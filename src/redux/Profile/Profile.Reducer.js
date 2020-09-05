@@ -4,16 +4,20 @@ import{
     LISTEN_TO_USER_PHOTO, 
     LISTEN_TO_USER_EVENT, 
     LISTEN_TO_FOLLOWERS, 
-    LISTEN_TO_FOLLOWING} from './ProfileType'
+    LISTEN_TO_FOLLOWING,
+    SET_FOLLOW_USER, 
+    SET_UNFOLLOW_USER
+} from './ProfileType'
 
 
 const initialState = {
     currentUserProfile: null,
     selectedUserProfile: null,
-    photos:[],
+    photos:[], 
     events:[],
     followers: [],
-    following:[]
+    following:[],
+    isFollowing: false
 
 };
 
@@ -48,6 +52,16 @@ export const profileReducer =(state = initialState ,action) =>{
             return{
                 ...state,
                 following:  action.payload
+            }
+        case SET_FOLLOW_USER:
+            return{
+                ...state,
+                isFollowing: true
+            }
+        case SET_UNFOLLOW_USER:
+            return{
+                ...state,
+                isFollowing: false
             }
         default: {
             return state;
