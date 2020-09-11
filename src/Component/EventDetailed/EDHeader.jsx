@@ -3,10 +3,16 @@ import { Segment, Image, Item, Header, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import { addUserAttendance, cancelUserAttendance } from "../../firebase/firestoreService";
-
-const EVHeader = ({currentUser, event, isHost, isGoing }) => {
+import {
+  addUserAttendance,
+  cancelUserAttendance,
+} from "../../firebase/firestoreService";
+import { useSelector } from "react-redux";
+import UnAuthModal from "../Modal-Component/ModalsForm/UnauthModal";
+const EVHeader = ({ event, isHost, isGoing }) => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
+  const [modelOpen, setModelOpen] = useState(false);
   const handleAddUser = async () => {
     setLoading(true);
     try {
@@ -40,41 +46,56 @@ const EVHeader = ({currentUser, event, isHost, isGoing }) => {
     color: "white",
   };
   return (
-    <Segment.Group>
-      <Segment basic attached="top" style={{ padding: "0" }}>
-        <Image
-          src={`/assets/categoryImages/${event.category}.jpg`}
-          fluid
-          style={eventImageStyle}
-        />
+    <Fragment>
+      {modelOpen && <UnAuthModal setModelOpen={setModelOpen} />}
+      <Segment.Group>
+        <Segment basic attached="top" style={{ padding: "0" }}>
+          <Image
+            src={`/assets/categoryImages/${event.category}.jpg`}
+            fluid
+            style={eventImageStyle}
+          />
 
-        <Segment basic style={eventImageTextStyle}>
-          <Item.Group>
-            <Item>
-              <Item.Content>
-                <Header
-                  size="huge"
-                  content={event.title}
-                  style={{ color: "white" }}
-                />
-                <p>{format(event.date, "MMMM d, yyyy h:mm a")}</p>
-                <p>
-                  Hosted by <strong><Link to={`/profile/${event.hostUId}`}> {event.hostedBy} </Link></strong>
-                </p>
-              </Item.Content>
-            </Item>
-          </Item.Group>
+          <Segment basic style={eventImageTextStyle}>
+            <Item.Group>
+              <Item>
+                <Item.Content>
+                  <Header
+                    size="huge"
+                    content={event.title}
+                    style={{ color: "white" }}
+                  />
+                  <p>{format(event.date, "MMMM d, yyyy h:mm a")}</p>
+                  <p>
+                    Hosted by{" "}
+                    <strong>
+                      <Link to={`/profile/${event.hostUId}`}>
+                        {" "}
+                        {event.hostedBy}{" "}
+                      </Link>
+                    </strong>
+                  </p>
+                </Item.Content>
+              </Item>
+            </Item.Group>
+          </Segment>
         </Segment>
-      </Segment>
 
-      { currentUser &&
-          <Segment attached="bottom" clearing>
+        <Segment attached="bottom" clearing>
           {!isHost && (
             <Fragment>
               {isGoing ? (
-                <Button onClick={handleCancel} loading={loading} >Cancel My Place</Button>
+                <Button onClick={handleCancel} loading={loading}>
+                  Cancel My Place
+                </Button>
               ) : (
-                <Button color="teal" loading={loading} onClick={handleAddUser}>
+                <Button
+                  color="teal"
+                  loading={loading}
+                  onClick={
+                    isAuthenticated ? handleAddUser : () => setModelOpen(true)
+                  }
+                >
                   JOIN THIS EVENT
                 </Button>
               )}
@@ -91,8 +112,8 @@ const EVHeader = ({currentUser, event, isHost, isGoing }) => {
             </Button>
           )}
         </Segment>
-      }
-    </Segment.Group>
+      </Segment.Group>
+    </Fragment>
   );
 };
 export default EVHeader;

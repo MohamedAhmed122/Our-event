@@ -55,9 +55,10 @@ return (
                 }}
                 >
                 <List selection>
-                    {suggestions.map((suggestion,i) => (
-                    <List.Item key={i}  {...getSuggestionItemProps(suggestion)}>
-                        <List.Header>
+                    {suggestions.map((suggestion) => (
+                    <List.Item key={suggestion.placeId ||suggestion.index}{...getSuggestionItemProps(suggestion)}>
+                        {console.log(suggestion)}
+                        <List.Header   >
                         {suggestion.formattedSuggestion.mainText}
                         </List.Header>
                         <List.Description>
