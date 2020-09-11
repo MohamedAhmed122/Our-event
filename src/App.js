@@ -15,6 +15,7 @@ import AccountPage from "./Pages/AccountPage/AccountPage";
 import { useSelector } from "react-redux";
 import Loading from "./Layout/Loading/LoadingComponent";
 import ProfilePage from "./Pages/ProfilePage/ProfilePage";
+import PrivateRoute from "./Component/PrivateRoute/PrivateRoute";
 
 function App() {
   const { key } = useLocation();
@@ -34,14 +35,14 @@ function App() {
               <Switch>
                 <Route exact path="/event" component={EventDashboard} />
                 <Route path="/event/:id" component={EventDetailedPage} />
-                <Route
+                <PrivateRoute
                   path={["/createEvent", "/manage/:id"]}
                   component={CreateEvent}
                   key={key}
                 />
                 <Route path="/error" component={ErrorComponent} />
-                <Route exact path="/settings" component={AccountPage} />
-                <Route path="/profile/:id" component={ProfilePage} />
+                <PrivateRoute exact path="/settings" component={AccountPage} />
+                <PrivateRoute path="/profile/:id" component={ProfilePage} />
               </Switch>
             </Container>
           </Fragment>

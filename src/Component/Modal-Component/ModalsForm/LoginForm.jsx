@@ -9,8 +9,9 @@ import { useDispatch } from "react-redux";
 import {closeModal} from '../../../redux/Modal/ModalAction'
 import { signInWithEmail } from "../../../firebase/firebaseService";
 import SocialLogin from "./SocialLogin";
+import { withRouter } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = ({history}) => {
     const dispatch =useDispatch()
 return (
     <ModalWrapper header="Login to our-events" size="mini">
@@ -20,7 +21,9 @@ return (
             try {
                 await signInWithEmail(values)
                 setSubmitting(false);
-                dispatch(closeModal())      
+                dispatch(closeModal()) 
+                // history.goBack()  
+                
             } catch (error) {
                 setErrors({auth : error.message})
                 setSubmitting(false);
@@ -43,6 +46,7 @@ return (
             content="LogIn"
             size='large'
             fluid
+            
             />
             <Divider horizontal>Or</Divider>
             <SocialLogin />
@@ -52,4 +56,4 @@ return (
     </ModalWrapper>
 );
 };
-export default LoginForm;
+export default withRouter( LoginForm);
