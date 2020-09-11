@@ -72,7 +72,7 @@ const PhotosTab = ({ profile, isCurrentUser }) => {
             {editMode ? (
                 <UploadPhoto setEditMode={setEditMode} />
             ) : (
-                <Card.Group itemsPerRow={5}>
+                <Card.Group itemsPerRow={2}>
                 {photos.map((photo) => (
                     <Card key={photo.id}>
                     <Image src={photo.url} />

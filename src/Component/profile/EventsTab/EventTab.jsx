@@ -41,7 +41,7 @@ const EventsTab = ({ profile, isCurrentUser }) => {
                 panes={panes}
                 menu={{ secondary: true, pointing: true }}
             />
-            <Card.Group itemsPerRow={4} style={{ marginTop: 12 }}>
+            <Card.Group itemsPerRow={2} style={{ marginTop: 12 }}>
                 {events.map((event) => (
                 <Card as={Link} to={`/event/${event.id}`} key={event.id}>
                     <Image

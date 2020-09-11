@@ -18,7 +18,7 @@ const ProfileContent = ({profile , isCurrentUser}) => {
 
   return (
         <Tab
-        menu={{ fluid: true, vertical: true }}
+        menu={{ fluid: false, vertical: false }}
         menuPosition="right"
         panes={panes}
         onTabChange={(e,data)=>setActiveTab(data.activeIndex)}

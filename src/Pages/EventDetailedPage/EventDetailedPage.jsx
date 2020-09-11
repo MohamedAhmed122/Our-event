@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import EVSidebar from "../../Component/EventDetailed/EDSidebar";
 import EVHeader from "../../Component/EventDetailed/EDHeader";
@@ -29,18 +29,33 @@ const EventDetailedPage = ({ match }) => {
     data: (event) => dispatch(listenEvent([event])),
     deps: [match.params.id],
   });
+  const [reduceWidth,setReduceWidth ] =useState(false)
 
+  const handleWidth =()=>{
+    if(window.outerWidth <= 765){
+      setReduceWidth(true)
+    }
+      else{
+        setReduceWidth(false)
+      }
+    
+  }
+  useEffect(()=>{
+    handleWidth()
+  },[setReduceWidth,window.addEventListener("resize", handleWidth)])
+  
+  window.addEventListener("resize", handleWidth)
   if (loading  || (!event && !error)) return <Loading />;
   if (error) return <Redirect to="/error" />;
   return (
     <Fragment>
       <Grid>
-        <Grid.Column width={10}>
+        <Grid.Column width={reduceWidth? 15:10}>
           <EVHeader  currentUser={currentUser} event={event} isHost={isHost} isGoing={isGoing} />
           <EVInfo event={event} />
           <EVChat currentUser={currentUser} eventId={event.id} />
         </Grid.Column>
-        <Grid.Column width={6}>
+        <Grid.Column width={reduceWidth? 1 :6}>
           <EVSidebar event={event}  />
         </Grid.Column>
       </Grid>

@@ -17,7 +17,7 @@ const EVInfo = ({ event: { description, date, venue } }) => {
           </Grid.Column>
         </Grid>
       </Segment>
-      <Segment attached>
+      <Segment  attached>
         <Grid verticalAlign="middle">
           <Grid.Column width={1}>
             <Icon name="calendar" size="large" color="teal" />
@@ -27,7 +27,7 @@ const EVInfo = ({ event: { description, date, venue } }) => {
           </Grid.Column>
         </Grid>
       </Segment>
-      <Segment attached>
+      <Segment  attached>
         <Grid verticalAlign="middle">
           <Grid.Column width={1}>
             <Icon name="marker" size="large" color="teal" />

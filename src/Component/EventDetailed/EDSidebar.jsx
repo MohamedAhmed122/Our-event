@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
-import { Segment, Item, Label } from "semantic-ui-react";
+import { Segment, Item, Label, Responsive } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 const EVSidebar = ({ event }) => (
 
   <Fragment>
-    <Segment
+    <Responsive as={Segment} minWidth={768} 
       textAlign="center"
       style={{ border: "none" }}
       attached="top"
@@ -14,8 +14,8 @@ const EVSidebar = ({ event }) => (
       color="teal"
     >
       {event.attendees.length} {event.attendees.length > 1 ? 'People are' : 'Person is'}   Going
-    </Segment>
-    <Segment attached>
+    </Responsive>
+    <Responsive as={Segment} minWidth={768}  attached>
       <Item.Group relaxed divided>
         {event.attendees.map((attendee) => (
           <Item  key={attendee.id} style={{ position: "relative" }}>
@@ -36,7 +36,7 @@ const EVSidebar = ({ event }) => (
           </Item>
         ))}
       </Item.Group>
-    </Segment>
+    </Responsive>
   </Fragment>
 );
 export default EVSidebar;

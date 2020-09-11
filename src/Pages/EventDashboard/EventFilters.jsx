@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Header } from "semantic-ui-react";
+import { Menu, Header, Responsive } from "semantic-ui-react";
 import Calendar from "react-calendar";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const FilterEvent = ({ setPredicate, predicate, loading }) => {
     <Fragment>
       {
         isAuthenticated &&
-        <Menu vertical size="large" style={{ width: "100%" }}>
+        <Responsive as={Menu} minWidth={798} vertical size="large" style={{ width: "100%" }}>
           <Header icon="filter" attached color="teal" content="Filter" />
           <Menu.Item
             content="All Events"
@@ -30,10 +30,10 @@ const FilterEvent = ({ setPredicate, predicate, loading }) => {
             onClick={() => setPredicate("filter", "isHost")}
             disabled={loading}
           />
-      </Menu>
+      </Responsive>
       }
       
-      <Header icon="calendar" attached color="teal" content="Select date" />
+      <Responsive as={Header} minWidth={798}  icon="calendar" attached color="teal" content="Select date" />
       <Calendar
         onChange={(date) => setPredicate("startDate", date)}
         value={predicate.get("startDate" || new Date())}

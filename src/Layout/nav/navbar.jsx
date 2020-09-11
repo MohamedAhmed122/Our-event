@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Button, MenuItem, Container } from "semantic-ui-react";
+import { Menu, Button, MenuItem, Container, Responsive } from "semantic-ui-react";
 import { Link, NavLink } from "react-router-dom";
 import SignedOutMenu from "./Menu/SignedOut-Menu";
 import SignedInMenu from "./Menu/SignedIn-Menu";
@@ -11,14 +11,14 @@ const Navbar = () => {
   return (
     <Menu inverted fixed="top">
       <Container>
-        <MenuItem header as={NavLink} to="/" exact>
+        <Responsive as={MenuItem} minWidth={600} header  exact>
           <img
-            alt="logo"
+            alt=" "
             style={{ marginRight: "0.7em" }}
             src={"assets/logo.png"}
           />
-          Hangout Club
-        </MenuItem>
+          <Link to="/" >Hangout Club</Link>
+        </Responsive>
         <MenuItem as={NavLink} to="/event" name="Events" />
         {isAuthenticated && (
           <MenuItem as={Link} to="/createEvent">

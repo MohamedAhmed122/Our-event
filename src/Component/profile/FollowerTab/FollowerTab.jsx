@@ -37,7 +37,7 @@ return (
             <Header floated="left" content={activeTab === 3? 'Followers': 'Following'} />
             </Grid.Column>
             <Grid.Column width={16}>
-            <Card.Group itemsPerRow={5}>
+            <Card.Group itemsPerRow={2}>
                 {
                     activeTab === 3 &&
                     followers.map(follower =>  <ProfileCard profile={follower} key={follower.id}/>)
