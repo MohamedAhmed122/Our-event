@@ -22,7 +22,7 @@ return (
                 await signInWithEmail(values)
                 setSubmitting(false);
                 dispatch(closeModal()) 
-                // history.goBack()  
+                 
                 
             } catch (error) {
                 setErrors({auth : error.message})

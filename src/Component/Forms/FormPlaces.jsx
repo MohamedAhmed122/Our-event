@@ -55,8 +55,8 @@ return (
                 }}
                 >
                 <List selection>
-                    {suggestions.map((suggestion) => (
-                    <List.Item {...getSuggestionItemProps(suggestion)}>
+                    {suggestions.map((suggestion,i) => (
+                    <List.Item key={i}  {...getSuggestionItemProps(suggestion)}>
                         <List.Header>
                         {suggestion.formattedSuggestion.mainText}
                         </List.Header>

@@ -19,6 +19,7 @@ const EventListITem = ({ event, deleteEvent }) => {
     isCancel,
     hostUId
   } = event;
+  
   return (
     <Segment.Group>
       <Segment>

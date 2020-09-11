@@ -9,7 +9,7 @@ const  PrivateRoute =({component: Component, ...rest})=>{
     return(
         <Route
             {... rest}
-            render={(props) => isAuthenticated? <Component/> : <UnAuthModal />}    
+            render={(props) => isAuthenticated? <Component {...props}/> : <UnAuthModal  {...props}/>}    
         />
     )
 }
