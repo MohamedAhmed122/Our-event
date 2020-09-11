@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { addUserAttendance, cancelUserAttendance } from "../../firebase/firestoreService";
 
-const EVHeader = ({ event, isHost, isGoing }) => {
+const EVHeader = ({currentUser, event, isHost, isGoing }) => {
   const [loading, setLoading] = useState(false);
   const handleAddUser = async () => {
     setLoading(true);
@@ -67,29 +67,31 @@ const EVHeader = ({ event, isHost, isGoing }) => {
         </Segment>
       </Segment>
 
-      <Segment attached="bottom" clearing>
-        {!isHost && (
-          <Fragment>
-            {isGoing ? (
-              <Button onClick={handleCancel} loading={loading} >Cancel My Place</Button>
-            ) : (
-              <Button color="teal" loading={loading} onClick={handleAddUser}>
-                JOIN THIS EVENT
-              </Button>
-            )}
-          </Fragment>
-        )}
-        {isHost && (
-          <Button
-            color="orange"
-            floated="right"
-            as={Link}
-            to={`/manage/${event.id}`}
-          >
-            Manage Event
-          </Button>
-        )}
-      </Segment>
+      { currentUser &&
+          <Segment attached="bottom" clearing>
+          {!isHost && (
+            <Fragment>
+              {isGoing ? (
+                <Button onClick={handleCancel} loading={loading} >Cancel My Place</Button>
+              ) : (
+                <Button color="teal" loading={loading} onClick={handleAddUser}>
+                  JOIN THIS EVENT
+                </Button>
+              )}
+            </Fragment>
+          )}
+          {isHost && (
+            <Button
+              color="orange"
+              floated="right"
+              as={Link}
+              to={`/manage/${event.id}`}
+            >
+              Manage Event
+            </Button>
+          )}
+        </Segment>
+      }
     </Segment.Group>
   );
 };

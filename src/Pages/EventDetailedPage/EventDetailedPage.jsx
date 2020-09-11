@@ -19,9 +19,9 @@ const EventDetailedPage = ({ match }) => {
     state.event.events.find((e) => e.id === match.params.id)
   );
 
-  const isHost = event?.hostUId === currentUser.uid;
+  const isHost = event?.hostUId === currentUser?.uid;
   const isGoing = event?.attendees?.some(
-    (attendee) => attendee.id === currentUser.uid
+    (attendee) => attendee.id === currentUser?.uid
   );
 
   useFirestoreDoc({
@@ -30,15 +30,15 @@ const EventDetailedPage = ({ match }) => {
     deps: [match.params.id],
   });
 
-  if (loading || !currentUser || (!event && !error)) return <Loading />;
+  if (loading  || (!event && !error)) return <Loading />;
   if (error) return <Redirect to="/error" />;
   return (
     <Fragment>
       <Grid>
         <Grid.Column width={10}>
-          <EVHeader event={event} isHost={isHost} isGoing={isGoing} />
+          <EVHeader  currentUser={currentUser} event={event} isHost={isHost} isGoing={isGoing} />
           <EVInfo event={event} />
-          <EVChat eventId={event.id} />
+          <EVChat currentUser={currentUser} eventId={event.id} />
         </Grid.Column>
         <Grid.Column width={6}>
           <EVSidebar event={event}  />

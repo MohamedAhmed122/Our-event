@@ -11,7 +11,7 @@ import { listenToEventChat } from "../../redux/Event/EventAction";
 import { Link } from "react-router-dom";
 import { CLEAR_COMMENTS } from "../../redux/Event/EventType";
 
-const EVChat = ({ eventId }) => {
+const EVChat = ({ eventId, currentUser }) => {
     const dispatch = useDispatch();
     const { comment } = useSelector((state) => state.event);
 
@@ -35,30 +35,35 @@ return (
             inverted
             color="teal"
             style={{ border: "none" }}
-        >
+        >{
+            currentUser?
             <Header>Chat about this event</Header>
+            : <Header>Sign in To chat about the event</Header>
+        }
+            
         </Segment>
-
-        <Segment attached>
-            <Comment.Group>
-            {comment.map((comment) => (
-                <Comment key={comment.id}>
-                <Comment.Avatar src={comment.photoURL || "/assets/user.png"} />
-                <Comment.Content>
-                    <Comment.Author as={Link} to={`/profile/${comment.uid}`}>{comment.displayName}</Comment.Author>
-                    <Comment.Metadata>
-                    <div>{formatDistance( comment.date,new Date())}</div>
-                    </Comment.Metadata>
-                    <Comment.Text>{comment.text}</Comment.Text>
-                    <Comment.Actions>
-                    <Comment.Action>Reply</Comment.Action>
-                    </Comment.Actions>
-                </Comment.Content>
-                </Comment>
-            ))}
-            </Comment.Group>
-            <ChatForm eventId={eventId} />
-        </Segment>
+        { currentUser&&
+            <Segment attached>
+                <Comment.Group>
+                {comment.map((comment) => (
+                    <Comment key={comment.id}>
+                    <Comment.Avatar src={comment.photoURL || "/assets/user.png"} />
+                    <Comment.Content>
+                        <Comment.Author as={Link} to={`/profile/${comment.uid}`}>{comment.displayName}</Comment.Author>
+                        <Comment.Metadata>
+                        <div>{formatDistance( comment.date,new Date())}</div>
+                        </Comment.Metadata>
+                        <Comment.Text>{comment.text}</Comment.Text>
+                        <Comment.Actions>
+                        <Comment.Action>Reply</Comment.Action>
+                        </Comment.Actions>
+                    </Comment.Content>
+                    </Comment>
+                ))}
+                </Comment.Group>
+                <ChatForm eventId={eventId} />
+            </Segment>
+        }
     </Fragment>
 );
 };
