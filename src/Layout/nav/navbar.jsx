@@ -17,7 +17,7 @@ const Navbar = () => {
             style={{ marginRight: "0.7em" }}
             src={"assets/logo.png"}
           />
-          Our-Event
+          Hangout Club
         </MenuItem>
         <MenuItem as={NavLink} to="/event" name="Events" />
         {isAuthenticated && (
