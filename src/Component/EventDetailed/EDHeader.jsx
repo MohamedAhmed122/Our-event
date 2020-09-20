@@ -35,11 +35,12 @@ const EVHeader = ({ event, isHost, isGoing }) => {
   };
   const eventImageStyle = {
     filter: "brightness(30%)",
+  
   };
 
   const eventImageTextStyle = {
     position: "absolute",
-    bottom: "5%",
+    bottom: "2%",
     left: "5%",
     width: "100%",
     height: "auto",
@@ -52,8 +53,9 @@ const EVHeader = ({ event, isHost, isGoing }) => {
         <Segment basic attached="top" style={{ padding: "0" }}>
           <Image
             src={`/assets/categoryImages/${event.category}.jpg`}
-            fluid
+            alt =''
             style={eventImageStyle}
+            fluid
           />
 
           <Segment basic style={eventImageTextStyle}>
@@ -61,7 +63,7 @@ const EVHeader = ({ event, isHost, isGoing }) => {
               <Item>
                 <Item.Content>
                   <Header
-                    size="huge"
+                    size='large'
                     content={event.title}
                     style={{ color: "white" }}
                   />

@@ -69,12 +69,12 @@ const EventListITem = ({ event, deleteEvent }) => {
           as={Link}
           to={`/event/${event.id}`}
         />
-        <Button
+        {/* <Button
           color="red"
           floated="right"
           content="Delete"
           onClick={() => deleteEventFromFirestore(event.id)}
-        />
+        /> */}
       </Segment>
     </Segment.Group>
   );

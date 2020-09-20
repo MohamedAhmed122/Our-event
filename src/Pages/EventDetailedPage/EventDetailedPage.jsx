@@ -42,7 +42,8 @@ const EventDetailedPage = ({ match }) => {
   }
   useEffect(()=>{
     handleWidth()
-  },[setReduceWidth,window.addEventListener("resize", handleWidth)])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[reduceWidth,window.addEventListener("resize", handleWidth)])
   
   window.addEventListener("resize", handleWidth)
   if (loading  || (!event && !error)) return <Loading />;

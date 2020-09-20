@@ -75,7 +75,7 @@ const PhotosTab = ({ profile, isCurrentUser }) => {
                 <Card.Group itemsPerRow={2}>
                 {photos.map((photo) => (
                     <Card key={photo.id}>
-                    <Image src={photo.url} />
+                    <Image src={photo.url} style={{height: '30rem'}} />
                     {isCurrentUser && (
                         <Button.Group>
                         <Button
